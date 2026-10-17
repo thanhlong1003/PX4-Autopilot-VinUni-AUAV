@@ -182,8 +182,12 @@ void BuoyancyPrivate::GradedFluidDensity(
 	auto centerOfBuoyancy = math::Vector3d{0, 0, 0};
 
 	for (const auto &[height, currFluidDensity] : this->layers) {
-		// TODO(arjo): Transform plane and slice the shape
-		math::Planed plane{math::Vector3d{0, 0, 1}, height - _pose.Pos().Z()};
+		// Slice the shape in its local frame using the world-horizontal fluid
+		// plane. This is required for correct restoring torque when a floating
+		// collision rolls or pitches.
+		const math::Vector3d planeNormal = _pose.Rot().RotateVectorReverse(
+				math::Vector3d{0, 0, 1});
+		math::Planed plane{planeNormal, height - _pose.Pos().Z()};
 		auto vol = _shape.VolumeBelow(plane);
 
 		// Short circuit.

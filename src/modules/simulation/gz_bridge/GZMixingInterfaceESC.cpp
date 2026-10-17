@@ -81,7 +81,22 @@ bool GZMixingInterfaceESC::updateOutputs(uint16_t outputs[MAX_ACTUATORS], unsign
 		rotor_velocity_message.mutable_velocity()->Resize(active_output_count, 0);
 
 		for (unsigned i = 0; i < active_output_count; i++) {
-			rotor_velocity_message.set_velocity(i, outputs[i]);
+			double velocity = outputs[i];
+
+			if (_mixing_output.reversibleOutputs() & (1u << i)) {
+				if (_mixing_output.armed().armed && !_mixing_output.armed().lockdown) {
+					const double minimum = _mixing_output.minValue(i);
+					const double maximum = _mixing_output.maxValue(i);
+					const double center = 0.5 * (minimum + maximum);
+					const double range = outputs[i] >= center ? maximum - center : center - minimum;
+					velocity = range > 0. ? (outputs[i] - center) * maximum / range : 0.;
+
+				} else {
+					velocity = 0.;
+				}
+			}
+
+			rotor_velocity_message.set_velocity(i, velocity);
 		}
 
 		if (_actuators_pub.Valid()) {

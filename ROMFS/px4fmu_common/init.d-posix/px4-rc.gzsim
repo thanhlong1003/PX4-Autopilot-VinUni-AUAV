@@ -23,6 +23,11 @@ if [ "$(printf '%s\n' "$GZ_SIM_VERSION" "$MIN_GZ_VERSION" | sort -V | head -n1)"
 		echo "INFO  [init] Setting Gazebo render engine to '${PX4_GZ_SIM_RENDER_ENGINE}'!"
 		gz_sub_command="${gz_sub_command} --render-engine ${PX4_GZ_SIM_RENDER_ENGINE}"
 	fi
+
+	if [ -n "${PX4_GZ_SIM_PHYSICS_ENGINE}" ]; then
+		echo "INFO  [init] Setting Gazebo physics engine to '${PX4_GZ_SIM_PHYSICS_ENGINE}'!"
+		gz_sub_command="${gz_sub_command} --physics-engine ${PX4_GZ_SIM_PHYSICS_ENGINE}"
+	fi
 else
 	echo "ERROR [init] Gazebo version too hold ($GZ_SIM_VERSION). Minimum required version is $MIN_GZ_VERSION"
 	exit 1

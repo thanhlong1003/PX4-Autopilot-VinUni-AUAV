@@ -1,62 +1,196 @@
-# PX4 Drone Autopilot
+# AUAV Hybrid Air/Water Simulation
 
-[![Releases](https://img.shields.io/github/release/PX4/PX4-Autopilot.svg)](https://github.com/PX4/PX4-Autopilot/releases) [![DOI](https://zenodo.org/badge/22634/PX4/PX4-Autopilot.svg)](https://zenodo.org/badge/latestdoi/22634/PX4/PX4-Autopilot)
+PX4 SITL and Gazebo Harmonic simulation for a hybrid autonomous vehicle that
+flies as a quadrotor and operates on the water surface with a Blue Robotics
+T500-style horizontal thruster.
 
-[![Build Targets](https://github.com/PX4/PX4-Autopilot/actions/workflows/build_all_targets.yml/badge.svg?branch=main)](https://github.com/PX4/PX4-Autopilot/actions/workflows/build_all_targets.yml) [![SITL Tests](https://github.com/PX4/PX4-Autopilot/workflows/SITL%20Tests/badge.svg?branch=master)](https://github.com/PX4/PX4-Autopilot/actions?query=workflow%3A%22SITL+Tests%22)
+This project is based on PX4 `release/1.17` at commit
+`f65ddce53985f13cd4fa24e7c0d78345b467bf1f`.
 
-[![Discord Shield](https://discordapp.com/api/guilds/1022170275984457759/widget.png?style=shield)](https://discord.gg/dronecode)
+## Features
 
-This repository holds the [PX4](http://px4.io) flight control solution for drones, with the main applications located in the [src/modules](https://github.com/PX4/PX4-Autopilot/tree/main/src/modules) directory. It also contains the PX4 Drone Middleware Platform, which provides drivers and middleware to run drones.
+- Four aerial motors in a measured 600 mm square layout.
+- 15-inch visible propellers and simplified HAUV geometry.
+- Two 700 x 100 x 200 mm pontoons with 1.16 m center spacing.
+- Sealed 500 x 200 x 140 mm electronics compartment.
+- Fifth, bidirectional horizontal T500 actuator.
+- Custom PX4 `Water` navigation mode.
+- Car-like water steering that reverses while backing up.
+- Dry deck and 24 x 16 x 3 m test pool.
+- Separate stable Gazebo profiles for flight and water testing.
+- Reversible Gazebo ESC output support.
 
-PX4 is highly portable, OS-independent and supports Linux, NuttX and MacOS out of the box.
+## Repository layout
 
-* Official Website: http://px4.io (License: BSD 3-clause, [LICENSE](https://github.com/PX4/PX4-Autopilot/blob/main/LICENSE))
-* [Supported airframes](https://docs.px4.io/main/en/airframes/airframe_reference.html) ([portfolio](https://px4.io/ecosystem/commercial-systems/)):
-  * [Multicopters](https://docs.px4.io/main/en/frames_multicopter/)
-  * [Fixed wing](https://docs.px4.io/main/en/frames_plane/)
-  * [VTOL](https://docs.px4.io/main/en/frames_vtol/)
-  * [Autogyro](https://docs.px4.io/main/en/frames_autogyro/)
-  * [Rover](https://docs.px4.io/main/en/frames_rover/)
-  * many more experimental types (Blimps, Boats, Submarines, High Altitude Balloons, Spacecraft, etc)
-* Releases: [Downloads](https://github.com/PX4/PX4-Autopilot/releases)
+| Path | Purpose |
+|---|---|
+| `Tools/hauv/` | Launcher, tests, model, worlds and detailed notes |
+| `src/modules/hauv_water_control/` | Manual Water-mode controller |
+| `ROMFS/px4fmu_common/init.d-posix/airframes/4902_gz_hauv_4plus1` | HAUV airframe and actuator allocation |
+| `src/modules/simulation/gz_plugins/buoyancy/` | Gazebo buoyancy integration |
+| `src/modules/simulation/gz_bridge/` | Gazebo startup and reversible ESC support |
 
-## Releases
+## Requirements
 
-Release notes and supporting information for PX4 releases can be found on the [Developer Guide](https://docs.px4.io/main/en/releases/).
+- Ubuntu Linux supported by PX4 `release/1.17`.
+- PX4 development dependencies.
+- Gazebo Harmonic (`gz-sim8`); the tested version is 8.11.0.
+- QGroundControl for telemetry and optional USB joystick input.
 
-## Building a PX4 based drone, rover, boat or robot
+Install the normal PX4 Ubuntu dependencies if required:
 
-The [PX4 User Guide](https://docs.px4.io/main/en/) explains how to assemble [supported vehicles](https://docs.px4.io/main/en/airframes/airframe_reference.html) and fly drones with PX4. See the [forum and chat](https://docs.px4.io/main/en/#getting-help) if you need help!
+```sh
+bash Tools/setup/ubuntu.sh
+```
 
+Restart the computer after the setup script if it changes group membership or
+installs system components.
 
-## Changing Code and Contributing
+## Clone
 
-This [Developer Guide](https://docs.px4.io/main/en/development/development.html) is for software developers who want to modify the flight stack and middleware (e.g. to add new flight modes), hardware integrators who want to support new flight controller boards and peripherals, and anyone who wants to get PX4 working on a new (unsupported) airframe/vehicle.
+```sh
+git clone --recursive https://github.com/thanhlong1003/AUAV-sim-ros.git
+cd AUAV-sim-ros
+```
 
-Developers should read the [Guide for Contributions](https://docs.px4.io/main/en/contribute/).
-See the [forum and chat](https://docs.px4.io/main/en/#getting-help) if you need help!
+If the repository was cloned without submodules:
 
+```sh
+git submodule update --init --recursive
+```
 
-## Weekly Dev Call
+## Build and validate
 
-The PX4 Dev Team syncs up on a [weekly dev call](https://docs.px4.io/main/en/contribute/).
+```sh
+make -j2 px4_sitl_default
+bash Tools/hauv/test_gz_model.sh
+```
 
-> **Note** The dev call is open to all interested developers (not just the core dev team). This is a great opportunity to meet the team and contribute to the ongoing development of the platform. It includes a QA session for newcomers. All regular calls are listed in the [Dronecode calendar](https://www.dronecode.org/calendar/).
+The validation script checks the SDF files, actuator geometry, Water-mode
+registration, propulsion constants, buoyancy setup and airframe mapping.
 
+## Run
 
-## Maintenance Team
+### Flight profile
 
-See the latest list of maintainers on [MAINTAINERS](MAINTAINERS.md) file at the root of the project.
+```sh
+bash Tools/hauv/run_gz_hauv.sh
+```
 
-For the latest stats on contributors please see the latest stats for the Dronecode ecosystem in our project dashboard under [LFX Insights](https://insights.lfx.linuxfoundation.org/foundation/dronecode). For information on how to update your profile and affiliations please see the following support link on how to [Complete Your LFX Profile](https://docs.linuxfoundation.org/lfx/my-profile/complete-your-lfx-profile). Dronecode publishes a yearly snapshot of contributions and achievements on its [website under the Reports section](https://dronecode.org).
+This is also available explicitly as:
 
-## Supported Hardware
+```sh
+bash Tools/hauv/run_gz_hauv.sh flight
+```
 
-For the most up to date information, please visit [PX4 User Guide > Autopilot Hardware](https://docs.px4.io/main/en/flight_controller/).
+The flight profile uses DART physics and starts on the south dry deck at
+`0,-12,0.6`. Use normal PX4 flight modes such as Position mode.
 
-## Project Governance
+### Water profile
 
-The PX4 Autopilot project including all of its trademarks is hosted under [Dronecode](https://www.dronecode.org/), part of the Linux Foundation.
+```sh
+bash Tools/hauv/run_gz_hauv.sh water
+```
 
-<a href="https://www.dronecode.org/" style="padding:20px" ><img src="https://dronecode.org/wp-content/uploads/sites/24/2020/08/dronecode_logo_default-1.png" alt="Dronecode Logo" width="110px"/></a>
-<div style="padding:10px">&nbsp;</div>
+The water profile uses Bullet Featherstone physics and starts at the pool's
+calm-water equilibrium. In the PX4 shell:
+
+```sh
+commander mode water
+commander arm
+```
+
+Center the throttle and right stick before arming.
+
+## Water controls
+
+| Input | Function |
+|---|---|
+| Throttle above 50% | T500 forward thrust |
+| Throttle at 50% | T500 stopped |
+| Throttle below 50% | T500 reverse thrust |
+| Right stick left/right | Water steering |
+
+Steering behaves like a car:
+
+- forward plus left produces counter-clockwise yaw;
+- reverse plus left produces clockwise yaw;
+- steering authority fades to zero at neutral thrust.
+
+The normal left-stick yaw input is unused in Water mode. Roll and pitch water
+stabilization are future work.
+
+## Initial Water-mode tuning
+
+Parameters can be changed live from the PX4 shell:
+
+```sh
+param set HAUV_W_THR_MAX 0.20
+param set HAUV_W_YAW_MAX 0.40
+param set HAUV_W_Q_IDLE 0.12
+param set HAUV_W_THR_SLEW 0.20
+param set HAUV_W_YAW_SLEW 0.50
+```
+
+`HAUV_W_Q_IDLE` provides differential-yaw headroom. Increase it gradually and
+stop if the vehicle starts lifting or rocking on the water.
+
+## USB radio and QGroundControl
+
+The transmitter must expose a USB HID joystick. In QGroundControl:
+
+1. Connect PX4 SITL.
+2. Open **Vehicle Setup > Joystick**.
+3. Select and calibrate the controller.
+4. Keep joystick mode set to Normal.
+
+PX4 uses `COM_RC_IN_MODE=1` for joystick input on this airframe. Confirm the
+normalized controls with:
+
+```sh
+listener manual_control_setpoint -n 10
+```
+
+For bidirectional thrust, the expected throttle values are approximately `-1`
+at the bottom, `0` at the center and `1` at the top.
+
+## Physics limitation
+
+Gazebo 8 does not currently provide both stable DART buoyancy and stable Bullet
+rotor-joint flight for this hybrid model in one session. The launcher therefore
+uses:
+
+- DART for multicopter flight and Position mode;
+- Bullet Featherstone for buoyancy and Water mode.
+
+Restart the simulator when switching profiles.
+
+## Land detection limitation
+
+PX4's multicopter land detector does not know about water. A stationary floating
+vehicle can satisfy its low-velocity, low-acceleration and low-thrust tests and
+be reported as landed. Automatic landed disarming is disabled for this
+development airframe, but `vehicle_land_detected` can still report `landed` on
+water. A dedicated water-contact sensor and transition state machine are future
+work.
+
+## Model status
+
+The model is intended for software integration and gross behavior testing. The
+following values remain provisional:
+
+- all-up mass and inertia tensor;
+- 15-inch propeller thrust and reaction-torque curves;
+- T500 voltage, thrust curve and installation losses;
+- displaced volume and center of buoyancy;
+- hydrodynamic drag coefficients;
+- automatic air/water transition thresholds.
+
+See `Tools/hauv/README.md` for detailed geometry, actuator mapping and test
+notes.
+
+## Upstream and license
+
+This repository is derived from
+[PX4-Autopilot](https://github.com/PX4/PX4-Autopilot). PX4 and these changes are
+distributed under the BSD 3-Clause license in `LICENSE`.

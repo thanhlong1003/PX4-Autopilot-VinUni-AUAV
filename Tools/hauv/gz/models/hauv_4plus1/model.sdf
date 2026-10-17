@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  <model name='hauv_4plus1'>
+    <pose>0 0 .24 0 0 0</pose>
+    <self_collide>false</self_collide>
+    <static>false</static>
+    <link name="base_link">
+      <inertial>
+        <!-- TBD: replace with measured all-up mass including CPS05. -->
+        <!-- Sealed hull, pontoons and T500 housing are combined in base_link. -->
+        <!-- Batteries and electronics keep the center of mass below the
+             flotation center so the surface vehicle self-rights. -->
+        <pose>-0.026 0 -0.052 0 0 0</pose>
+        <mass>7.94</mass>
+        <inertia>
+          <!-- TBD: replace with measured or CAD-derived inertia tensor. -->
+          <ixx>0.45</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.28</iyy>
+          <iyz>0</iyz>
+          <izz>0.65</izz>
+        </inertia>
+      </inertial>
+      <gravity>true</gravity>
+      <velocity_decay>
+        <linear>0.80</linear>
+        <angular>2.00</angular>
+      </velocity_decay>
+      <visual name="base_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.50 0.20 0.14</size></box>
+        </geometry>
+        <material><diffuse>0.12 0.16 0.20 1</diffuse></material>
+      </visual>
+      <visual name="5010_motor_base_0">
+        <pose>0.17 0.11 -0.13 -0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="5010_motor_base_1">
+        <pose>-0.17 0.11 -0.13 -0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="5010_motor_base_2">
+        <pose>0.17 -0.11 -0.13 0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="5010_motor_base_3">
+        <pose>-0.17 -0.11 -0.13 0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="NXP_FMUK66_FRONT">
+        <pose>0.30 0 0.03 1.57079632679 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>1.16</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="NXP_FMUK66_TOP">
+        <pose>-0.30 0 0.03 1.57079632679 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>1.16</length></cylinder>
+        </geometry>
+        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
+      </visual>
+      <visual name="RDDRONE_FMUK66_TOP">
+        <pose>0.08 0 0.13 0 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.008</radius><length>0.12</length></cylinder>
+        </geometry>
+        <material><diffuse>0.20 0.20 0.22 1</diffuse></material>
+      </visual>
+      <visual name="t500_body_visual">
+        <pose>-0.34 0 -0.06 0 1.57079632679 0</pose>
+        <geometry><cylinder><radius>0.055</radius><length>0.18</length></cylinder></geometry>
+        <material><diffuse>0.04 0.20 0.42 1</diffuse></material>
+      </visual>
+      <visual name="pontoon_left_visual">
+        <pose>0 0.58 0 0 0 0</pose>
+        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
+        <material><diffuse>0.18 0.48 0.68 1</diffuse></material>
+      </visual>
+      <visual name="pontoon_right_visual">
+        <pose>0 -0.58 0 0 0 0</pose>
+        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
+        <material><diffuse>0.18 0.48 0.68 1</diffuse></material>
+      </visual>
+      <collision name="pontoon_left_collision">
+        <pose>0 0.58 0 0 0 0</pose>
+        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
+      </collision>
+      <collision name="pontoon_right_collision">
+        <pose>0 -0.58 0 0 0 0</pose>
+        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
+      </collision>
+      <collision name="base_link_collision_0">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.50 0.20 0.14</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_collision_1">
+        <pose>0.17 0.11 -0.13 -0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_collision_2">
+        <pose>-0.17 0.11 -0.13 -0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_collision_3">
+        <pose>0.17 -0.11 -0.13 0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_collision_4">
+        <pose>-0.17 -0.11 -0.13 0.35 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <sensor name="air_pressure_sensor" type="air_pressure">
+        <gz_frame_id>base_link</gz_frame_id>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <air_pressure>
+          <!-- Noise modeled after BMP390 -->
+          <pressure>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>3</stddev>
+            </noise>
+          </pressure>
+        </air_pressure>
+      </sensor>
+      <sensor name="magnetometer_sensor" type="magnetometer">
+        <gz_frame_id>base_link</gz_frame_id>
+        <always_on>1</always_on>
+        <update_rate>100</update_rate>
+        <magnetometer>
+          <!-- TODO: update to fix units and coordinate system when we move past Harmonic -->
+          <!-- See https://github.com/gazebosim/gz-sim/pull/2460 -->
+          <!-- 3mgauss RMS: NOTE: noise is in tesla but sensor reports data in gauss -->
+          <!-- Noise modeled after IIS2MDC -->
+          <x>
+            <noise type="gaussian">
+              <stddev>0.0001</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <stddev>0.0001</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <stddev>0.0001</stddev>
+            </noise>
+          </z>
+        </magnetometer>
+      </sensor>
+      <sensor name="imu_sensor" type="imu">
+        <gz_frame_id>base_link</gz_frame_id>
+        <always_on>1</always_on>
+        <update_rate>250</update_rate>
+        <imu>
+          <angular_velocity>
+            <!-- Noise modeled after IIM42653 -->
+            <!-- 0.05 deg/s converted to rad/s -->
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0008726646</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0008726646</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0008726646</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <!-- Noise modeled after IIM42653 -->
+            <!-- X & Y axis: 0.65 mg-rms converted to m/ss -->
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00637</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00637</stddev>
+              </noise>
+            </y>
+            <!-- Z axis: 0.70 mg-rms converted to m/ss-->
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00686</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+      <sensor name="navsat_sensor" type="navsat">
+        <gz_frame_id>base_link</gz_frame_id>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+      </sensor>
+    </link>
+
+    <link name="rotor_0">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <velocity_decay />
+      <pose>0.30 -0.30 0.12 0 0 0</pose>
+      <inertial>
+        <mass>0.016076923076923075</mass>
+        <inertia>
+          <ixx>3.8464910483993325e-07</ixx>
+          <iyy>2.6115851691700804e-05</iyy>
+          <izz>2.649858234714004e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="rotor_0_visual">
+        <pose>0 0 0.01 0 0 0</pose>
+        <geometry>
+          <box><size>0.381 0.028 0.004</size></box>
+        </geometry>
+        <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
+      </visual>
+      <visual name="rotor_0_visual_motor_bell">
+        <pose>0 0 -.032 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://x500_base/meshes/5010Bell.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="rotor_0_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>rotor_0</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="rotor_1">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <velocity_decay />
+      <pose>-0.30 0.30 0.12 0 0 0</pose>
+      <inertial>
+        <mass>0.016076923076923075</mass>
+        <inertia>
+          <ixx>3.8464910483993325e-07</ixx>
+          <iyy>2.6115851691700804e-05</iyy>
+          <izz>2.649858234714004e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="rotor_1_visual">
+        <pose>0 0 0.01 0 0 0</pose>
+        <geometry>
+          <box><size>0.381 0.028 0.004</size></box>
+        </geometry>
+        <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
+      </visual>
+      <visual name="rotor_1_visual_motor_top">
+        <pose>0 0 -.032 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://x500_base/meshes/5010Bell.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="rotor_1_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>rotor_1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="rotor_2">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <velocity_decay />
+      <pose>0.30 0.30 0.12 0 0 0</pose>
+      <inertial>
+        <mass>0.016076923076923075</mass>
+        <inertia>
+          <ixx>3.8464910483993325e-07</ixx>
+          <iyy>2.6115851691700804e-05</iyy>
+          <izz>2.649858234714004e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="rotor_2_visual">
+        <pose>0 0 0.01 0 0 0</pose>
+        <geometry>
+          <box><size>0.381 0.028 0.004</size></box>
+        </geometry>
+        <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
+      </visual>
+      <visual name="rotor_2_visual_motor_top">
+        <pose>0 0 -.032 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://x500_base/meshes/5010Bell.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="rotor_2_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>rotor_2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="rotor_3">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <velocity_decay />
+      <pose>-0.30 -0.30 0.12 0 0 0</pose>
+      <inertial>
+        <mass>0.016076923076923075</mass>
+        <inertia>
+          <ixx>3.8464910483993325e-07</ixx>
+          <iyy>2.6115851691700804e-05</iyy>
+          <izz>2.649858234714004e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="rotor_3_visual">
+        <pose>0 0 0.01 0 0 0</pose>
+        <geometry>
+          <box><size>0.381 0.028 0.004</size></box>
+        </geometry>
+        <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
+      </visual>
+      <visual name="rotor_3_visual_motor_top">
+        <pose>0 0 -.032 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://x500_base/meshes/5010Bell.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="rotor_3_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>rotor_3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <!-- Simplified T500: mounted aft, thrust axis along body +X. -->
+    <link name="t500_rotor">
+      <pose>-0.442 0 -0.06 0 1.57079632679 0</pose>
+      <gravity>false</gravity>
+      <self_collide>false</self_collide>
+      <velocity_decay />
+      <inertial>
+        <mass>0.016076923076923075</mass>
+        <inertia>
+          <ixx>3.8464910483993325e-07</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>2.6115851691700804e-05</iyy><iyz>0</iyz><izz>2.649858234714004e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="t500_prop_hub_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry><cylinder><radius>0.014</radius><length>0.024</length></cylinder></geometry>
+        <material><diffuse>0.85 0.85 0.88 1</diffuse></material>
+      </visual>
+      <visual name="t500_prop_blade_0_visual">
+        <pose>0.031 0 0 0 0 0</pose>
+        <geometry><box><size>0.042 0.014 0.006</size></box></geometry>
+        <material><diffuse>1.0 0.72 0.02 1</diffuse></material>
+      </visual>
+      <visual name="t500_prop_blade_1_visual">
+        <pose>-0.0155 0.02685 0 0 0 2.09439510239</pose>
+        <geometry><box><size>0.042 0.014 0.006</size></box></geometry>
+        <material><diffuse>1.0 0.72 0.02 1</diffuse></material>
+      </visual>
+      <visual name="t500_prop_blade_2_visual">
+        <pose>-0.0155 -0.02685 0 0 0 -2.09439510239</pose>
+        <geometry><box><size>0.042 0.014 0.006</size></box></geometry>
+        <material><diffuse>1.0 0.72 0.02 1</diffuse></material>
+      </visual>
+      <visual name="t500_prop_tip_marker_visual">
+        <pose>0.048 0 -0.004 0 0 0</pose>
+        <geometry><box><size>0.012 0.018 0.008</size></box></geometry>
+        <material><diffuse>0.95 0.04 0.03 1</diffuse></material>
+      </visual>
+    </link>
+    <joint name="t500_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>t500_rotor</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <!-- Provisional water drag. Added-mass terms are intentionally omitted
+         to keep the simplified multi-link model numerically well conditioned. -->
+    <plugin filename="gz-sim-hydrodynamics-system"
+      name="gz::sim::systems::Hydrodynamics">
+      <link_name>base_link</link_name>
+      <xU>-5.0</xU><xUabsU>-3.0</xUabsU>
+      <yV>-12.0</yV><yVabsV>-8.0</yVabsV>
+      <zW>-40.0</zW><zWabsW>-20.0</zWabsW>
+      <kP>-8.0</kP><kPabsP>-4.0</kPabsP>
+      <mQ>-8.0</mQ><mQabsQ>-4.0</mQabsQ>
+      <nR>-5.0</nR><nRabsR>-3.0</nRabsR>
+    </plugin>
+
+    <!-- Aerial propulsion constants are provisional and must be fitted to
+         SunnySky X4120 V3 650KV + actual propeller test data. -->
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
+      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
+      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>0</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>100</rotorVelocitySlowdownSim><motorType>velocity</motorType>
+    </plugin>
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
+      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
+      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>1</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>100</rotorVelocitySlowdownSim><motorType>velocity</motorType>
+    </plugin>
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
+      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
+      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>2</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>100</rotorVelocitySlowdownSim><motorType>velocity</motorType>
+    </plugin>
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
+      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
+      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>3</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>100</rotorVelocitySlowdownSim><motorType>velocity</motorType>
+    </plugin>
+
+    <!-- 91.2 N is a provisional full-scale forward force (TBD voltage and
+         installation losses). Channel 5 is allocated as the fifth rotor. -->
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <jointName>t500_joint</jointName><linkName>t500_rotor</linkName>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.10</timeConstantUp><timeConstantDown>0.15</timeConstantDown>
+      <maxRotVelocity>1000</maxRotVelocity><motorConstant>9.12e-05</motorConstant>
+      <momentConstant>0</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>4</motorNumber><rotorDragCoefficient>0</rotorDragCoefficient>
+      <rollingMomentCoefficient>0</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>100</rotorVelocitySlowdownSim><motorType>velocity</motorType>
+    </plugin>
+  </model>
+</sdf>

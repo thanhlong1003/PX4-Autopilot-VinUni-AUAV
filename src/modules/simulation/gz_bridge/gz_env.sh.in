@@ -11,11 +11,26 @@
 # https://gazebosim.org/api/sim/8/server_config.html
 # -----------------------------------------------------------------------
 
-export PX4_GZ_MODELS=@PX4_SOURCE_DIR@/Tools/simulation/gz/models
-export PX4_GZ_WORLDS=@PX4_SOURCE_DIR@/Tools/simulation/gz/worlds
+PX4_GZ_DEFAULT_MODELS=@PX4_SOURCE_DIR@/Tools/simulation/gz/models
+PX4_GZ_DEFAULT_WORLDS=@PX4_SOURCE_DIR@/Tools/simulation/gz/worlds
+PX4_HAUV_GZ_MODELS=@PX4_SOURCE_DIR@/Tools/hauv/gz/models
+PX4_HAUV_GZ_WORLDS=@PX4_SOURCE_DIR@/Tools/hauv/gz/worlds
+
+MODEL_NAME=${PX4_SIM_MODEL#*gz_}
+if [ -f "${PX4_HAUV_GZ_MODELS}/${MODEL_NAME}/model.sdf" ]; then
+    export PX4_GZ_MODELS=${PX4_HAUV_GZ_MODELS}
+else
+    export PX4_GZ_MODELS=${PX4_GZ_DEFAULT_MODELS}
+fi
+
+if [ -f "${PX4_HAUV_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf" ]; then
+    export PX4_GZ_WORLDS=${PX4_HAUV_GZ_WORLDS}
+else
+    export PX4_GZ_WORLDS=${PX4_GZ_DEFAULT_WORLDS}
+fi
 export PX4_GZ_PLUGINS=@PX4_BINARY_DIR@/src/modules/simulation/gz_plugins
 export PX4_GZ_SERVER_CONFIG=@PX4_SOURCE_DIR@/src/modules/simulation/gz_bridge/server.config
 
-export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$PX4_GZ_MODELS:$PX4_GZ_WORLDS
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$PX4_GZ_DEFAULT_MODELS:$PX4_GZ_DEFAULT_WORLDS:$PX4_HAUV_GZ_MODELS:$PX4_HAUV_GZ_WORLDS
 export GZ_SIM_SYSTEM_PLUGIN_PATH=$GZ_SIM_SYSTEM_PLUGIN_PATH:$PX4_GZ_PLUGINS
 export GZ_SIM_SERVER_CONFIG_PATH=$PX4_GZ_SERVER_CONFIG

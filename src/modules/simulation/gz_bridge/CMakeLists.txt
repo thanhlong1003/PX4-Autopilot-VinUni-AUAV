@@ -38,6 +38,8 @@ else()
 endif()
 
 file(GLOB gz_worlds ${PX4_SOURCE_DIR}/Tools/simulation/gz/worlds/*.sdf)
+file(GLOB hauv_gz_worlds CONFIGURE_DEPENDS ${PX4_SOURCE_DIR}/Tools/hauv/gz/worlds/*.sdf)
+list(APPEND gz_worlds ${hauv_gz_worlds})
 file(GLOB gz_airframes ${PX4_SOURCE_DIR}/ROMFS/px4fmu_common/init.d-posix/airframes/*_gz_*)
 
 if (gz-transport_FOUND)
@@ -120,7 +122,7 @@ if (gz-transport_FOUND)
 	endforeach()
 
 	# Setup the environment variables: PX4_GZ_MODELS, PX4_GZ_WORLDS, GZ_SIM_RESOURCE_PATH
-	configure_file(gz_env.sh.in ${PX4_BINARY_DIR}/rootfs/gz_env.sh)
+	configure_file(gz_env.sh.in ${PX4_BINARY_DIR}/rootfs/gz_env.sh @ONLY)
 
 else()
 	# Create fallback targets that provide helpful error messages when Gazebo dependencies are missing

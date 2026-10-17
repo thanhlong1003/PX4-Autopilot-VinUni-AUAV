@@ -1,0 +1,5 @@
+menuconfig MODULES_HAUV_WATER_CONTROL
+	bool "hauv_water_control"
+	default n
+	---help---
+		Enable the HAUV surface-water manual controller
