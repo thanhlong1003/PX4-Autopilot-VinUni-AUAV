@@ -34,6 +34,9 @@ use the sibling Docker workspace
 
 ## Run simulation (Docker)
 
+Hướng dẫn đầy đủ (chạy, QGC, git push, publish Docker Hub):
+[`AUAV-sim-ros/README.md`](../AUAV-sim-ros/README.md).
+
 ```sh
 cd ../AUAV-sim-ros/sim
 cp .env.example .env
@@ -50,8 +53,7 @@ commander mode water
 commander arm
 ```
 
-Center the throttle and right stick before arming. Details:
-[`AUAV-sim-ros/sim/README.md`](../AUAV-sim-ros/sim/README.md) and
+Center the throttle and right stick before arming. Geometry notes:
 [`Tools/hauv/README.md`](Tools/hauv/README.md).
 
 ## Water controls
