@@ -7,19 +7,17 @@
     <link name="base_link">
       <inertial>
         <!-- TBD: replace with measured all-up mass including CPS05. -->
-        <!-- Sealed hull, pontoons and T500 housing are combined in base_link. -->
-        <!-- Batteries and electronics keep the center of mass below the
-             flotation center so the surface vehicle self-rights. -->
-        <pose>-0.026 0 -0.052 0 0 0</pose>
+        <!-- CAD mesh from AUAV-draft.step product Big / COMPOUND010. -->
+        <pose>0 0.015 -0.05 0 0 0</pose>
         <mass>7.94</mass>
         <inertia>
-          <!-- TBD: replace with measured or CAD-derived inertia tensor. -->
-          <ixx>0.45</ixx>
+          <!-- Approximate box inertia for 1.46 x 0.93 x 0.43 m @ 7.94 kg. -->
+          <ixx>0.70</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.28</iyy>
+          <iyy>1.55</iyy>
           <iyz>0</iyz>
-          <izz>0.65</izz>
+          <izz>2.05</izz>
         </inertia>
       </inertial>
       <gravity>true</gravity>
@@ -30,156 +28,20 @@
       <visual name="base_link_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <box><size>0.50 0.20 0.14</size></box>
+          <mesh>
+            <uri>model://hauv_4plus1/meshes/hauv_big.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
         </geometry>
-        <material><diffuse>0.12 0.16 0.20 1</diffuse></material>
+        <material><diffuse>0.55 0.58 0.62 1</diffuse></material>
       </visual>
-      <visual name="5010_motor_base_0">
-        <pose>0.17 0.11 -0.13 -0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="5010_motor_base_1">
-        <pose>-0.17 0.11 -0.13 -0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="5010_motor_base_2">
-        <pose>0.17 -0.11 -0.13 0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="5010_motor_base_3">
-        <pose>-0.17 -0.11 -0.13 0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="NXP_FMUK66_FRONT">
-        <pose>0.30 0 0.03 1.57079632679 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>1.16</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="NXP_FMUK66_TOP">
-        <pose>-0.30 0 0.03 1.57079632679 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>1.16</length></cylinder>
-        </geometry>
-        <material><diffuse>0.30 0.34 0.38 1</diffuse></material>
-      </visual>
-      <visual name="RDDRONE_FMUK66_TOP">
-        <pose>0.08 0 0.13 0 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.008</radius><length>0.12</length></cylinder>
-        </geometry>
-        <material><diffuse>0.20 0.20 0.22 1</diffuse></material>
-      </visual>
-      <visual name="t500_body_visual">
-        <pose>-0.34 0 -0.06 0 1.57079632679 0</pose>
-        <geometry><cylinder><radius>0.055</radius><length>0.18</length></cylinder></geometry>
-        <material><diffuse>0.04 0.20 0.42 1</diffuse></material>
-      </visual>
-      <visual name="pontoon_left_visual">
-        <pose>0 0.58 0 0 0 0</pose>
-        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
-        <material><diffuse>0.18 0.48 0.68 1</diffuse></material>
-      </visual>
-      <visual name="pontoon_right_visual">
-        <pose>0 -0.58 0 0 0 0</pose>
-        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
-        <material><diffuse>0.18 0.48 0.68 1</diffuse></material>
-      </visual>
-      <collision name="pontoon_left_collision">
-        <pose>0 0.58 0 0 0 0</pose>
-        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
-      </collision>
-      <collision name="pontoon_right_collision">
-        <pose>0 -0.58 0 0 0 0</pose>
-        <geometry><box><size>0.70 0.10 0.20</size></box></geometry>
-      </collision>
-      <collision name="base_link_collision_0">
+      <collision name="base_link_collision">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <box>
-            <size>0.50 0.20 0.14</size>
-          </box>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <min_depth>0.001</min_depth>
-              <max_vel>0</max_vel>
-            </ode>
-          </contact>
-          <friction>
-            <ode />
-          </friction>
-        </surface>
-      </collision>
-      <collision name="base_link_collision_1">
-        <pose>0.17 0.11 -0.13 -0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <min_depth>0.001</min_depth>
-              <max_vel>0</max_vel>
-            </ode>
-          </contact>
-          <friction>
-            <ode />
-          </friction>
-        </surface>
-      </collision>
-      <collision name="base_link_collision_2">
-        <pose>-0.17 0.11 -0.13 -0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <min_depth>0.001</min_depth>
-              <max_vel>0</max_vel>
-            </ode>
-          </contact>
-          <friction>
-            <ode />
-          </friction>
-        </surface>
-      </collision>
-      <collision name="base_link_collision_3">
-        <pose>0.17 -0.11 -0.13 0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <min_depth>0.001</min_depth>
-              <max_vel>0</max_vel>
-            </ode>
-          </contact>
-          <friction>
-            <ode />
-          </friction>
-        </surface>
-      </collision>
-      <collision name="base_link_collision_4">
-        <pose>-0.17 -0.11 -0.13 0.35 0 0</pose>
-        <geometry>
-          <cylinder><radius>0.012</radius><length>0.25</length></cylinder>
+          <mesh>
+            <uri>model://hauv_4plus1/meshes/hauv_big_collision.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
         </geometry>
         <surface>
           <contact>
@@ -290,13 +152,13 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
       </sensor>
-    </link>
+        </link>
 
     <link name="rotor_0">
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>0.30 -0.30 0.12 0 0 0</pose>
+      <pose>0.280145 -0.274642 0.131326 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -308,7 +170,7 @@
       <visual name="rotor_0_visual">
         <pose>0 0 0.01 0 0 0</pose>
         <geometry>
-          <box><size>0.381 0.028 0.004</size></box>
+          <box><size>0.457 0.032 0.004</size></box>
         </geometry>
         <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
       </visual>
@@ -341,7 +203,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>-0.30 0.30 0.12 0 0 0</pose>
+      <pose>-0.280145 0.275358 0.131326 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -353,7 +215,7 @@
       <visual name="rotor_1_visual">
         <pose>0 0 0.01 0 0 0</pose>
         <geometry>
-          <box><size>0.381 0.028 0.004</size></box>
+          <box><size>0.457 0.032 0.004</size></box>
         </geometry>
         <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
       </visual>
@@ -386,7 +248,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>0.30 0.30 0.12 0 0 0</pose>
+      <pose>0.280145 0.275358 0.131326 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -398,7 +260,7 @@
       <visual name="rotor_2_visual">
         <pose>0 0 0.01 0 0 0</pose>
         <geometry>
-          <box><size>0.381 0.028 0.004</size></box>
+          <box><size>0.457 0.032 0.004</size></box>
         </geometry>
         <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
       </visual>
@@ -431,7 +293,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>-0.30 -0.30 0.12 0 0 0</pose>
+      <pose>-0.270145 -0.274642 0.131326 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -443,7 +305,7 @@
       <visual name="rotor_3_visual">
         <pose>0 0 0.01 0 0 0</pose>
         <geometry>
-          <box><size>0.381 0.028 0.004</size></box>
+          <box><size>0.457 0.032 0.004</size></box>
         </geometry>
         <material><diffuse>0.12 0.12 0.14 1</diffuse></material>
       </visual>
@@ -475,7 +337,7 @@
 
     <!-- Simplified T500: mounted aft, thrust axis along body +X. -->
     <link name="t500_rotor">
-      <pose>-0.442 0 -0.06 0 1.57079632679 0</pose>
+      <pose>-0.50 0 -0.06 0 1.57079632679 0</pose>
       <gravity>false</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />

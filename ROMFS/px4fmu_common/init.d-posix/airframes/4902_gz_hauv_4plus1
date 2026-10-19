@@ -24,27 +24,26 @@ param set-default CA_ROTOR_COUNT 5
 # Motor 5 is the bidirectional T500 thruster.
 param set-default CA_R_REV 16
 
-# Motor centers form a measured 0.60 m square.
-param set-default CA_ROTOR0_PX  0.30
-param set-default CA_ROTOR0_PY  0.30
+# Motor centers from AUAV-draft.step SunnySky under Big (match Gazebo rotor_0..3 poses).
+param set-default CA_ROTOR0_PX  0.280
+param set-default CA_ROTOR0_PY -0.275
 param set-default CA_ROTOR0_KM  0.08
 
-param set-default CA_ROTOR1_PX -0.30
-param set-default CA_ROTOR1_PY -0.30
+param set-default CA_ROTOR1_PX -0.280
+param set-default CA_ROTOR1_PY  0.275
 param set-default CA_ROTOR1_KM  0.08
 
-param set-default CA_ROTOR2_PX  0.30
-param set-default CA_ROTOR2_PY -0.30
+param set-default CA_ROTOR2_PX  0.280
+param set-default CA_ROTOR2_PY  0.275
 param set-default CA_ROTOR2_KM -0.08
 
-param set-default CA_ROTOR3_PX -0.30
-param set-default CA_ROTOR3_PY  0.30
+param set-default CA_ROTOR3_PX -0.270
+param set-default CA_ROTOR3_PY -0.275
 param set-default CA_ROTOR3_KM -0.08
 
-# T500 thrust axis in body coordinates. The vertical offset is deliberately
-# omitted from allocation until Water-mode pitch stabilization is added, which
-# keeps the T500 decoupled from pitch control in normal flight modes.
-param set-default CA_ROTOR4_PX -0.34
+# T500 thrust axis in body coordinates (aft estimate from CAD hull bbox).
+# Vertical offset omitted until Water-mode pitch stabilization is added.
+param set-default CA_ROTOR4_PX -0.50
 param set-default CA_ROTOR4_PY  0.00
 param set-default CA_ROTOR4_PZ  0.00
 param set-default CA_ROTOR4_AX  1.00

@@ -19,18 +19,18 @@ use the sibling Docker workspace
 - Fifth, bidirectional horizontal T500 actuator.
 - Custom PX4 `Water` navigation mode.
 - Car-like water steering that reverses while backing up.
-- Dry deck and 24 x 16 x 3 m test pool (Gazebo worlds under `Tools/hauv/gz/`).
+- Dry deck and 24 x 16 x 3 m test pool (Gazebo worlds in AUAV-sim-ros).
 - Reversible Gazebo ESC output support.
 
 ## Repository layout
 
 | Path | Purpose |
 |---|---|
-| `Tools/hauv/gz/` | Gazebo HAUV model and worlds |
+| Sibling `AUAV-sim-ros/gz_standalone/` | Gazebo HAUV model and worlds |
 | `src/modules/hauv_water_control/` | Manual Water-mode controller |
 | `ROMFS/px4fmu_common/init.d-posix/airframes/4902_gz_hauv_4plus1` | HAUV SITL airframe and actuator allocation |
 | `src/modules/simulation/gz_plugins/buoyancy/` | Gazebo buoyancy integration |
-| `src/modules/simulation/gz_bridge/` | Gazebo startup and reversible ESC support |
+| `src/modules/simulation/gz_bridge/` | Gazebo startup; reads `HAUV_GZ_ROOT` for assets |
 
 ## Run simulation (Docker)
 
@@ -53,8 +53,8 @@ commander mode water
 commander arm
 ```
 
-Center the throttle and right stick before arming. Geometry notes:
-[`Tools/hauv/README.md`](Tools/hauv/README.md).
+Center the throttle and right stick before arming. Geometry / CAD notes:
+[`AUAV-sim-ros/gz_standalone/`](../AUAV-sim-ros/gz_standalone) and [`Tools/hauv/README.md`](Tools/hauv/README.md).
 
 ## Water controls
 
@@ -99,7 +99,7 @@ Restart after the setup script if it changes group membership.
 ## Model status
 
 Provisional: mass/inertia, propeller and T500 curves, buoyancy volume, drag,
-air/water transition thresholds. See `Tools/hauv/README.md`.
+air/water transition thresholds. See `AUAV-sim-ros/gz_standalone/` and `Tools/hauv/README.md`.
 
 ## Upstream and license
 

@@ -9,28 +9,49 @@
 # See Gazebo docs
 # https://gazebosim.org/api/sim/8/resources.html
 # https://gazebosim.org/api/sim/8/server_config.html
+#
+# HAUV assets are duplicated:
+#   1) AUAV-sim-ros/gz_standalone via HAUV_GZ_ROOT / HAUV_GZ_MODELS / HAUV_GZ_WORLDS
+#   2) This tree: Tools/hauv/gz (filled by px4_custom_setup.sh; CMake GLOB + fallback)
 # -----------------------------------------------------------------------
 
 PX4_GZ_DEFAULT_MODELS=@PX4_SOURCE_DIR@/Tools/simulation/gz/models
 PX4_GZ_DEFAULT_WORLDS=@PX4_SOURCE_DIR@/Tools/simulation/gz/worlds
-PX4_HAUV_GZ_MODELS=@PX4_SOURCE_DIR@/Tools/hauv/gz/models
-PX4_HAUV_GZ_WORLDS=@PX4_SOURCE_DIR@/Tools/hauv/gz/worlds
+PX4_HAUV_TREE_MODELS=@PX4_SOURCE_DIR@/Tools/hauv/gz/models
+PX4_HAUV_TREE_WORLDS=@PX4_SOURCE_DIR@/Tools/hauv/gz/worlds
+
+# Prefer explicit AUAV paths; else HAUV_GZ_ROOT; else in-tree Tools/hauv/gz.
+if [ -n "${HAUV_GZ_MODELS:-}" ]; then
+	PX4_HAUV_GZ_MODELS=${HAUV_GZ_MODELS}
+elif [ -n "${HAUV_GZ_ROOT:-}" ]; then
+	PX4_HAUV_GZ_MODELS=${HAUV_GZ_ROOT}/models
+else
+	PX4_HAUV_GZ_MODELS=${PX4_HAUV_TREE_MODELS}
+fi
+
+if [ -n "${HAUV_GZ_WORLDS:-}" ]; then
+	PX4_HAUV_GZ_WORLDS=${HAUV_GZ_WORLDS}
+elif [ -n "${HAUV_GZ_ROOT:-}" ]; then
+	PX4_HAUV_GZ_WORLDS=${HAUV_GZ_ROOT}/worlds
+else
+	PX4_HAUV_GZ_WORLDS=${PX4_HAUV_TREE_WORLDS}
+fi
 
 MODEL_NAME=${PX4_SIM_MODEL#*gz_}
 if [ -f "${PX4_HAUV_GZ_MODELS}/${MODEL_NAME}/model.sdf" ]; then
-    export PX4_GZ_MODELS=${PX4_HAUV_GZ_MODELS}
+	export PX4_GZ_MODELS=${PX4_HAUV_GZ_MODELS}
 else
-    export PX4_GZ_MODELS=${PX4_GZ_DEFAULT_MODELS}
+	export PX4_GZ_MODELS=${PX4_GZ_DEFAULT_MODELS}
 fi
 
 if [ -f "${PX4_HAUV_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf" ]; then
-    export PX4_GZ_WORLDS=${PX4_HAUV_GZ_WORLDS}
+	export PX4_GZ_WORLDS=${PX4_HAUV_GZ_WORLDS}
 else
-    export PX4_GZ_WORLDS=${PX4_GZ_DEFAULT_WORLDS}
+	export PX4_GZ_WORLDS=${PX4_GZ_DEFAULT_WORLDS}
 fi
 export PX4_GZ_PLUGINS=@PX4_BINARY_DIR@/src/modules/simulation/gz_plugins
 export PX4_GZ_SERVER_CONFIG=@PX4_SOURCE_DIR@/src/modules/simulation/gz_bridge/server.config
 
-export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$PX4_GZ_DEFAULT_MODELS:$PX4_GZ_DEFAULT_WORLDS:$PX4_HAUV_GZ_MODELS:$PX4_HAUV_GZ_WORLDS
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$PX4_GZ_DEFAULT_MODELS:$PX4_GZ_DEFAULT_WORLDS:$PX4_HAUV_GZ_MODELS:$PX4_HAUV_GZ_WORLDS:$PX4_HAUV_TREE_MODELS:$PX4_HAUV_TREE_WORLDS
 export GZ_SIM_SYSTEM_PLUGIN_PATH=$GZ_SIM_SYSTEM_PLUGIN_PATH:$PX4_GZ_PLUGINS
 export GZ_SIM_SERVER_CONFIG_PATH=$PX4_GZ_SERVER_CONFIG
