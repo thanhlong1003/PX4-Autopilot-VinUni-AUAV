@@ -424,16 +424,18 @@
       <nR>-1.5</nR><nRabsR>-0.8</nRabsR>
     </plugin>
 
-    <!-- Aerial propulsion constants are provisional and must be fitted to
-         SunnySky X4120 V3 650KV + actual propeller test data. -->
+    <!-- Propulsion from datasheets (see meshes/propulsion_physics.json).
+         Aerial: SunnySky V5210 300KV + EOLO C18 @ 25 V → ~36 N @ 5759 RPM.
+         T500: Blue Robotics @ 16 V → ~91 N @ 2350 RPM (k fit 12–24 V).
+         Gazebo: thrust = motorConstant * omega^2, omega command in rad/s. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
-      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
-      <motorNumber>0</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>0</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
@@ -442,9 +444,9 @@
       <jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
-      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
-      <motorNumber>1</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>1</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
@@ -453,9 +455,9 @@
       <jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
-      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
-      <motorNumber>2</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>2</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
@@ -464,21 +466,20 @@
       <jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>1000</maxRotVelocity><motorConstant>5.2e-05</motorConstant>
-      <momentConstant>0.08</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
-      <motorNumber>3</motorNumber><rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>3</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
 
-    <!-- 91.2 N is a provisional full-scale forward force (TBD voltage and
-         installation losses). Channel 5 is allocated as the fifth rotor. -->
+    <!-- T500 @ 16 V: 9.3 kgf @ 2350 RPM. Bidirectional (CA_R_REV). -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>t500_joint</jointName><linkName>t500_rotor</linkName>
       <turningDirection>ccw</turningDirection>
-      <timeConstantUp>0.10</timeConstantUp><timeConstantDown>0.15</timeConstantDown>
-      <maxRotVelocity>1000</maxRotVelocity><motorConstant>9.12e-05</motorConstant>
+      <timeConstantUp>0.08</timeConstantUp><timeConstantDown>0.12</timeConstantDown>
+      <maxRotVelocity>246.1</maxRotVelocity><motorConstant>1.50973e-03</motorConstant>
       <momentConstant>0</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber><rotorDragCoefficient>0</rotorDragCoefficient>
       <rollingMomentCoefficient>0</rollingMomentCoefficient>
