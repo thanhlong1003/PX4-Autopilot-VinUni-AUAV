@@ -85,8 +85,8 @@
           <density>1.225</density>
         </density_change>
       </graded_buoyancy>
-      <!-- Apply buoyancy only to the simplified sealed hull collision. -->
       <enable>hauv_4plus1_0::base_link</enable>
+      <enable>hauv_4plus1::base_link</enable>
     </plugin>
   </world>
 </sdf>

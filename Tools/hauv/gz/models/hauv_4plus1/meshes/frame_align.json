@@ -1,0 +1,13 @@
+{
+  "cad_to_gz_yaw_rad": 1.5707963267948966,
+  "note": "Body yaw +90 so pontoon long axis = +X and CAD nose = +X",
+  "rotors": {
+    "rotor_0": [0.274642, 0.280145, 0.131326],
+    "rotor_1": [-0.275358, -0.280145, 0.131326],
+    "rotor_2": [-0.275358, 0.280145, 0.131326],
+    "rotor_3": [0.274642, -0.270145, 0.131326]
+  },
+  "t500_xyz": [-0.40, 0.0, -0.14],
+  "t500_rpy": [0.0, 1.57079632679, 0.0],
+  "t500_note": "Center aft bulkhead circular opening (y=0, r≈0.08). Not mounted on a pontoon tip."
+}

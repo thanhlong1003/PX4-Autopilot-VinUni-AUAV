@@ -168,7 +168,9 @@
           <density>1.225</density>
         </density_change>
       </graded_buoyancy>
+      <!-- PX4 names the first vehicle hauv_4plus1_0; also allow unscoped. -->
       <enable>hauv_4plus1_0::base_link</enable>
+      <enable>hauv_4plus1::base_link</enable>
     </plugin>
   </world>
 </sdf>
