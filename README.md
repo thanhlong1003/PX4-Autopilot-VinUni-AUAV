@@ -34,7 +34,7 @@ use the sibling Docker workspace
 
 ## Run simulation (Docker)
 
-Hướng dẫn đầy đủ (chạy, QGC, git push, publish Docker Hub):
+Full run / QGC / git push / Docker Hub publish guide:
 [`AUAV-sim-ros/README.md`](../AUAV-sim-ros/README.md).
 
 ```sh
