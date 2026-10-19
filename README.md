@@ -37,7 +37,11 @@ This project is based on PX4 `release/1.17` at commit
 - Gazebo Harmonic (`gz-sim8`); the tested version is 8.11.0.
 - QGroundControl for telemetry and optional USB joystick input.
 
-Install the normal PX4 Ubuntu dependencies if required:
+**Recommended:** run Gazebo SITL via the sibling Docker workspace
+[`AUAV-sim-ros/sim`](../AUAV-sim-ros/sim) so the host only edits this firmware
+tree. Build and spawn happen inside the container (bind-mount).
+
+Native host install (optional):
 
 ```sh
 bash Tools/setup/ubuntu.sh
