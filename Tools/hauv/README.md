@@ -1,7 +1,8 @@
-# HAUV Gazebo SITL
+# HAUV Gazebo SITL assets
 
-The HAUV model supports normal PX4 multicopter flight modes and a dedicated
-manual `Water` mode for surface operation.
+Gazebo models and worlds for the hybrid air/water vehicle. Firmware modules and
+the SITL airframe live in this PX4 tree; **launchers and validation scripts**
+live in the sibling [`AUAV-sim-ros/sim`](../../../AUAV-sim-ros/sim) workspace.
 
 ## Current mapping
 
@@ -31,93 +32,43 @@ The widened layout leaves 39.5 mm between each propeller disc and its nearest
 pontoon, and 219 mm between adjacent propeller discs. Motor thrust and torque
 constants remain provisional until measured 15-inch propeller data is supplied.
 
-## Run
+## Run and validate
+
+Use the Docker workflow in `AUAV-sim-ros/sim`:
 
 ```sh
-bash Tools/hauv/test_gz_model.sh
-bash Tools/hauv/run_gz_hauv.sh
+cd ../AUAV-sim-ros/sim
+./scripts/test_gz_model.sh
+./scripts/build_px4.sh
+./scripts/up.sh                 # flight
+SIM_MODE=water ./scripts/up.sh  # water
 ```
 
-The launcher uses the `hauv_pool` world by default. It contains a 24 x 16 x 3 m
-pool surrounded by a dry 50 x 36 m deck. The vehicle starts on the south deck
-at `0,-12,0.6`. To use the original open-water world:
+Default world is `hauv_pool` (24 x 16 x 3 m pool, dry deck). Open-water:
 
 ```sh
-PX4_GZ_WORLD=hauv_surface bash Tools/hauv/run_gz_hauv.sh water
+PX4_GZ_WORLD=hauv_surface SIM_MODE=water ./scripts/up.sh
 ```
 
-To start near the calm-water equilibrium instead of dropping the vehicle from
-above the surface:
+## Water mode (firmware)
 
-```sh
-bash Tools/hauv/run_gz_hauv.sh water
-```
-
-The simplified model uses a lowered center of mass and provisional
-hydrodynamic drag for passive surface stability.
-
-## Water mode
-
-Start at the calm-water equilibrium:
-
-```sh
-bash Tools/hauv/run_gz_hauv.sh water
-```
-
-The launcher uses Gazebo's DART backend by default because it provides stable
-multicopter flight and Position mode. The `water` argument selects Bullet and
-the pool spawn automatically. Running without an argument selects DART and the
-dry flight spawn.
-
-Gazebo 8 currently cannot provide both stable DART buoyancy and stable Bullet
-rotor-joint flight for this hybrid model in one simulator session.
-
-Then use the PX4 shell:
+In the PX4 shell after spawning with `SIM_MODE=water`:
 
 ```sh
 commander mode water
 commander arm
 ```
 
-Put the throttle stick at its 50% center detent before arming. Water mode waits
-for normalized throttle and right-stick horizontal inputs near `0.0` before it
-accepts commands.
+Center throttle and right stick before arming. Throttle above/below 50% drives
+the T500 forward/reverse; right-stick horizontal is car-like steering. Tuning
+params: `HAUV_W_THR_MAX`, `HAUV_W_YAW_MAX`, `HAUV_W_Q_IDLE`, `HAUV_W_THR_SLEW`,
+`HAUV_W_YAW_SLEW`.
 
-The upper half of the throttle stick controls forward T500 thrust and the lower
-half controls reverse thrust. Right-stick horizontal controls differential
-aerial-motor yaw with car-like steering: a left command yaws counter-clockwise
-while moving forward and clockwise while reversing. Steering authority fades
-to zero as T500 thrust approaches neutral. The normal left-stick yaw axis is
-unused in Water mode. Pitch stabilization is not implemented yet. The four
-aerial motors remain at the `HAUV_W_Q_IDLE` collective while armed, which defaults to `0.12`
-for stronger differential-yaw headroom; automatic
-preflight and landed disarming are disabled for this development airframe.
-
-After arming, Water mode waits for both the throttle and right-stick horizontal
-axis to be centered before accepting commands. T500 thrust and yaw torque are
-then slew-limited to avoid destabilizing the Gazebo physics engine.
-
-Useful initial tuning parameters are:
-
-```sh
-param set HAUV_W_THR_MAX 0.20
-param set HAUV_W_YAW_MAX 0.40
-param set HAUV_W_Q_IDLE 0.12
-param set HAUV_W_THR_SLEW 0.20
-param set HAUV_W_YAW_SLEW 0.50
-```
-
-Switch back to the normal flight controller with `commander mode posctl`.
-Disarm before moving the vehicle by hand.
-
-To test only the T500 output mapping while disarmed:
+Disarmed actuator check:
 
 ```sh
 actuator_test set -f 105 -v 0.25 -t 2
 ```
-
-Then verify the four aerial outputs one at a time with functions `101` through
-`104`. Keep values low and time-limited.
 
 ## Provisional parameters (TBD)
 
