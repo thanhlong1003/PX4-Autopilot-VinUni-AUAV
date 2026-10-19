@@ -60,10 +60,10 @@ public:
 Manual surface-water controller for the HAUV 4+1 vehicle.
 
 In Water mode the centered throttle stick commands bidirectional T500 thrust,
-right-stick horizontal commands car-like steering through differential
-quad-motor torque, and a small collective quad thrust keeps the four aerial
-motors ready. Steering reverses while backing up. Roll and pitch stabilization
-are intentionally not implemented yet.
+yaw or right-stick horizontal commands steering through differential
+quad-motor torque (works at zero throttle for spot turns; reverses while
+backing up), and a small collective quad thrust keeps the four aerial motors
+ready. Roll and pitch stabilization are intentionally not implemented yet.
 )DESCR_STR");
 		PRINT_MODULE_USAGE_NAME("hauv_water_control", "controller");
 		PRINT_MODULE_USAGE_COMMAND("start");
@@ -132,12 +132,13 @@ private:
 
 		} else if (!_controls_ready && _input_fresh
 			   && fabsf(_manual_control_setpoint.throttle) <= 0.10f
-			   && fabsf(_manual_control_setpoint.roll) <= 0.10f) {
+			   && fabsf(_manual_control_setpoint.roll) <= 0.10f
+			   && fabsf(_manual_control_setpoint.yaw) <= 0.10f) {
 			_controls_ready = true;
 		}
 
 		if (newly_armed && !_controls_ready) {
-			PX4_WARN("center throttle and right stick to enable Water controls");
+			PX4_WARN("center throttle, yaw, and right stick to enable Water controls");
 		}
 
 		float forward_thrust_target = 0.f;
@@ -145,9 +146,18 @@ private:
 
 		if (_input_fresh && _controls_ready) {
 			const float throttle_input = math::constrain(_manual_control_setpoint.throttle, -1.f, 1.f);
-			const float steering_input = math::constrain(_manual_control_setpoint.roll, -1.f, 1.f);
+			// Accept yaw stick (typical "steering") or roll stick (car-like).
+			const float steering_raw = (fabsf(_manual_control_setpoint.yaw) >= fabsf(_manual_control_setpoint.roll))
+						  ? _manual_control_setpoint.yaw
+						  : _manual_control_setpoint.roll;
+			const float steering_input = math::constrain(steering_raw, -1.f, 1.f);
 			forward_thrust_target = throttle_input * _param_thrust_max.get();
-			yaw_torque_target = steering_input * throttle_input * _param_yaw_max.get();
+			// Spot-turn allowed at zero throttle; reverse steering when backing up.
+			yaw_torque_target = steering_input * _param_yaw_max.get();
+
+			if (throttle_input < -0.05f) {
+				yaw_torque_target = -yaw_torque_target;
+			}
 		}
 
 		const float dt = (_last_run != 0) ? math::constrain((now - _last_run) * 1e-6f, 0.f, 0.1f) : 0.f;

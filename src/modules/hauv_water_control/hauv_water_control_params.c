@@ -21,7 +21,7 @@ PARAM_DEFINE_FLOAT(HAUV_W_THR_MAX, 0.35f);
  * @decimal 2
  * @group HAUV Water Control
  */
-PARAM_DEFINE_FLOAT(HAUV_W_YAW_MAX, 0.40f);
+PARAM_DEFINE_FLOAT(HAUV_W_YAW_MAX, 1.00f);
 
 /**
  * Additional quad-motor collective idle thrust in Water mode.
@@ -35,7 +35,7 @@ PARAM_DEFINE_FLOAT(HAUV_W_YAW_MAX, 0.40f);
  * @decimal 2
  * @group HAUV Water Control
  */
-PARAM_DEFINE_FLOAT(HAUV_W_Q_IDLE, 0.12f);
+PARAM_DEFINE_FLOAT(HAUV_W_Q_IDLE, 0.22f);
 
 /**
  * Maximum manual-input age accepted by Water mode.
