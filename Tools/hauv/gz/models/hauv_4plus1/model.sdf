@@ -7,25 +7,25 @@
     <static>false</static>
     <link name="base_link">
       <inertial>
-        <!-- CAD Big/COMPOUND010, yawed +90deg so pontoon long axis = +X and CAD nose = +X.
-             COM slightly low for float stability (below mid-pontoon). -->
+        <!-- Dry mass measured 9 kg. Box inertia from CAD bbox after +90° yaw
+             (Lx≈1.46, Ly≈0.93, Lz≈0.43). COM low for float stability.
+             See meshes/hydro_physics.json. -->
         <pose>0 0 -0.10 0 0 0</pose>
-        <mass>10.0</mass>
+        <mass>9.0</mass>
         <inertia>
-          <!-- Approx box inertia for 0.93 x 1.46 x 0.43 m @ 10 kg (after yaw). -->
-          <ixx>1.95</ixx>
+          <ixx>0.787</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.88</iyy>
+          <iyy>1.737</iyy>
           <iyz>0</iyz>
-          <izz>2.58</izz>
+          <izz>2.247</izz>
         </inertia>
       </inertial>
       <gravity>true</gravity>
-      <!-- Light always-on damping; water drag comes from Hydrodynamics below. -->
+      <!-- Light air damping only; water drag from Hydrodynamics below. -->
       <velocity_decay>
-        <linear>0.15</linear>
-        <angular>0.40</angular>
+        <linear>0.05</linear>
+        <angular>0.15</angular>
       </velocity_decay>
       <visual name="base_link_visual">
         <pose>0 0 0 0 0 0</pose>
@@ -37,15 +37,12 @@
         </geometry>
         <material><diffuse>0.55 0.58 0.62 1</diffuse></material>
       </visual>
-      <!-- Buoyancy + ground contact (visual CAD size unchanged). Fresh water:
-           m=10 kg => V_sub = 0.01 m^3. Target ~60% box height => V_total ≈ 0.0167
-           (extra reserve so splashdown does not bury the nose).
-           Long waterplane along +X (0.75 m) restores pitch; prior 0.29 m boxes
-           let the nose dive and sink. Bottom on visual keel zmin≈-0.24.
-           0.75*0.079*0.14 ≈ 0.0083 each. -->
+      <!-- Buoyancy boxes aligned to VISUAL pontoons (STL |y|>0.4 → z∈[-0.13,0.09]),
+           not landing-gear tips. Half-height volume ≈ 9 L − keel so waterline
+           sits mid-pontoon (see meshes/hydro_physics.json). -->
       <collision name="pontoon_port_collision">
-        <pose>0 0.55 -0.17 0 0 0</pose>
-        <geometry><box><size>0.75 0.079 0.14</size></box></geometry>
+        <pose>0 0.55 -0.02 0 0 0</pose>
+        <geometry><box><size>0.8 0.05005 0.22</size></box></geometry>
         <surface>
           <contact>
             <ode><min_depth>0.001</min_depth><max_vel>0</max_vel></ode>
@@ -54,8 +51,8 @@
         </surface>
       </collision>
       <collision name="pontoon_starboard_collision">
-        <pose>0 -0.55 -0.17 0 0 0</pose>
-        <geometry><box><size>0.75 0.079 0.14</size></box></geometry>
+        <pose>0 -0.55 -0.02 0 0 0</pose>
+        <geometry><box><size>0.8 0.05005 0.22</size></box></geometry>
         <surface>
           <contact>
             <ode><min_depth>0.001</min_depth><max_vel>0</max_vel></ode>
@@ -63,10 +60,10 @@
           <friction><ode /></friction>
         </surface>
       </collision>
-      <!-- Contact skid at visual bottom; negligible buoyancy volume. -->
+      <!-- Ground contact only; volume kept tiny so it barely affects float draft. -->
       <collision name="keel_collision">
-        <pose>0 0 -0.235 0 0 0</pose>
-        <geometry><box><size>0.60 0.12 0.01</size></box></geometry>
+        <pose>0 0 -0.237 0 0 0</pose>
+        <geometry><box><size>0.40 0.08 0.006</size></box></geometry>
         <surface>
           <contact>
             <ode><min_depth>0.001</min_depth><max_vel>0</max_vel></ode>
@@ -171,7 +168,7 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
       </sensor>
-      <!-- SunnySky V5210 motors (CAD poses after yaw +90). -->
+      <!-- SunnySky X4120 V3 motors (CAD poses after yaw +90; mesh may still be V5210 body). -->
       <visual name="motor_0_visual">
         <pose>0.274642 0.280145 0.131326 0 0 0</pose>
         <geometry>
@@ -238,13 +235,13 @@
           <izz>2.649858234714004e-05</izz>
         </inertia>
       </inertial>
-      <!-- CAD 18x6.1 propeller (CCW), spin about +Z. -->
+      <!-- Physics: 15x8. Visual: 18x6.1 STL scaled ≈15/18 until 15x8 CAD. -->
       <visual name="rotor_0_visual">
         <pose>0 0 0.02 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/prop_18x6_1_ccw.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.833 0.833 0.833</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -283,7 +280,7 @@
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/prop_18x6_1_ccw.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.833 0.833 0.833</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -322,7 +319,7 @@
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/prop_18x6_1_cw.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.833 0.833 0.833</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -361,7 +358,7 @@
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/prop_18x6_1_cw.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.833 0.833 0.833</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -410,30 +407,30 @@
       </axis>
     </joint>
 
-    <!-- Provisional water drag. Stronger pitch damping (mQ) resists nose-dive
-         on splashdown; heave damping kept moderate so buoyancy can recover. -->
+    <!-- Hydrodynamics from meshes/hydro_physics.json (viscous + effective
+         wave Cd; measured 9 kg; half-draft float). Not visual fine-tuning. -->
     <plugin filename="gz-sim-hydrodynamics-system"
       name="gz::sim::systems::Hydrodynamics">
       <link_name>base_link</link_name>
-      <xU>-5.0</xU><xUabsU>-3.0</xUabsU>
-      <yV>-12.0</yV><yVabsV>-8.0</yVabsV>
-      <zW>-25.0</zW><zWabsW>-12.0</zWabsW>
-      <kP>-10.0</kP><kPabsP>-5.0</kPabsP>
-      <mQ>-20.0</mQ><mQabsQ>-10.0</mQabsQ>
-      <!-- Weak yaw drag: surface steering uses small prop reaction torque (~1–2 N·m). -->
-      <nR>-1.5</nR><nRabsR>-0.8</nRabsR>
+      <xU>-10.0</xU><xUabsU>-16.79</xUabsU>
+      <yV>-20.0</yV><yVabsV>-105.6</yVabsV>
+      <zW>-35.0</zW><zWabsW>-40.04</zWabsW>
+      <kP>-8.0</kP><kPabsP>-12.11</kPabsP>
+      <mQ>-18.0</mQ><mQabsQ>-6.41</mQabsQ>
+      <!-- Yaw: pontoons see surge u=±y·r → frontal area (not lateral). -->
+      <nR>-3.0</nR><nRabsR>-5.08</nRabsR>
     </plugin>
 
     <!-- Propulsion from datasheets (see meshes/propulsion_physics.json).
-         Aerial: SunnySky V5210 300KV + EOLO C18 @ 25 V → ~36 N @ 5759 RPM.
-         T500: Blue Robotics @ 16 V → ~91 N @ 2350 RPM (k fit 12–24 V).
+         Aerial: SunnySky X4120 V3 + 15x8 @ 20.31 V / 43.08 A → 3962 g @ 7539 RPM.
+         T500: Blue Robotics @ 24 V → ~158 N @ 3088 RPM (k fit 12–24 V).
          Gazebo: thrust = motorConstant * omega^2, omega command in rad/s. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -444,7 +441,7 @@
       <jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -455,7 +452,7 @@
       <jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -466,20 +463,20 @@
       <jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>603.1</maxRotVelocity><motorConstant>9.795801e-05</motorConstant>
+      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
 
-    <!-- T500 @ 16 V: 9.3 kgf @ 2350 RPM. Bidirectional (CA_R_REV). -->
+    <!-- T500 @ 24 V: ~16.1 kgf @ 3088 RPM. Bidirectional (CA_R_REV). -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>t500_joint</jointName><linkName>t500_rotor</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.08</timeConstantUp><timeConstantDown>0.12</timeConstantDown>
-      <maxRotVelocity>246.1</maxRotVelocity><motorConstant>1.50973e-03</motorConstant>
+      <maxRotVelocity>323.4</maxRotVelocity><motorConstant>1.50973e-03</motorConstant>
       <momentConstant>0</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber><rotorDragCoefficient>0</rotorDragCoefficient>
       <rollingMomentCoefficient>0</rollingMomentCoefficient>

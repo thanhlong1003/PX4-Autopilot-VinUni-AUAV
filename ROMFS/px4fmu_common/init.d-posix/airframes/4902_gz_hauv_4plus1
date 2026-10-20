@@ -64,11 +64,11 @@ param set-default SIM_GZ_EC_MIN3 0
 param set-default SIM_GZ_EC_MIN4 0
 param set-default SIM_GZ_EC_MIN5 0
 
-param set-default SIM_GZ_EC_MAX1 603
-param set-default SIM_GZ_EC_MAX2 603
-param set-default SIM_GZ_EC_MAX3 603
-param set-default SIM_GZ_EC_MAX4 603
-param set-default SIM_GZ_EC_MAX5 246
+param set-default SIM_GZ_EC_MAX1 789
+param set-default SIM_GZ_EC_MAX2 789
+param set-default SIM_GZ_EC_MAX3 789
+param set-default SIM_GZ_EC_MAX4 789
+param set-default SIM_GZ_EC_MAX5 323
 
 param set-default SIM_GZ_EC_DIS5 0
 param set-default SIM_GZ_EC_FAIL5 0
@@ -84,7 +84,7 @@ param set-default COM_DISARM_PRFLT -1
 param set-default LNDMC_TRIG_TIME 5.0
 
 # Hover ~10 kg with V5210+C18 (~36 N/motor max); T∝ω² so hover cmd ~0.7–0.83.
-param set-default MPC_THR_HOVER 0.70
+param set-default MPC_THR_HOVER 0.75
 # Idle spin when armed (flight); water mode uses HAUV_W_Q_IDLE for yaw motors.
 param set-default MPC_THR_MIN 0.12
 param set-default NAV_DLL_ACT 2

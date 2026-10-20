@@ -1,0 +1,107 @@
+{
+  "version": 2,
+  "method": "viscous + wave-making; buoyancy boxes aligned to visual pontoon; half-draft = 9 L",
+  "inputs": {
+    "dry_mass_kg": 9.0,
+    "float_draft_fraction": 0.5,
+    "rho_fresh_kg_m3": 1000.0,
+    "visual_pontoon_z": [
+      -0.13,
+      0.09
+    ],
+    "pontoon_L_m": 0.8,
+    "pontoon_W_m": 0.05005,
+    "pontoon_H_m": 0.22,
+    "pontoon_y_m": 0.55,
+    "Cd_visc_surge": 0.85,
+    "Cd_wave_eff": 2.2,
+    "Cd_lat": 1.2,
+    "Cd_heave": 1.0,
+    "note_wave": "Cd_wave_eff folds residuary into |u|u; recalibrate with GPS",
+    "note_float_high_bug": "v1 boxes sat on landing-gear z=-0.24 below visual pontoon; volume filled air gap so hull looked dry",
+    "keel_volume_m3": 0.000192,
+    "yaw_model": "Pure yaw induces surge velocity u=\u00b1y*r at each pontoon; use frontal area W*draft (not lateral L*draft). v1 wrongly used A_lat \u2192 nRabsR\u2248-32."
+  },
+  "derived": {
+    "V_sub_equilibrium_m3": 0.009,
+    "draft_m": 0.11,
+    "pontoon_pose_z": -0.020000000000000004,
+    "A_frontal_m2": 0.01101,
+    "A_lateral_m2": 0.176,
+    "A_plan_m2": 0.08182,
+    "inertia_box": {
+      "ixx": 0.787,
+      "iyy": 1.737,
+      "izz": 2.247
+    },
+    "com_pose": [
+      0.0,
+      0.0,
+      -0.1
+    ],
+    "T500_24V_N": 157.89,
+    "Vmax_full_T500_m_s": 3.07,
+    "Fr_at_Vmax": 1.08,
+    "suggested_MPC_THR_HOVER": 0.75,
+    "A_front_one_m2": 0.00551,
+    "yaw_rate_at_1_2Nm_deg_s": 15.7
+  },
+  "gazebo_hydrodynamics": {
+    "xU": -10.0,
+    "xUabsU": -16.79,
+    "yV": -20.0,
+    "yVabsV": -105.6,
+    "zW": -35.0,
+    "zWabsW": -40.04,
+    "kP": -8.0,
+    "kPabsP": -12.11,
+    "mQ": -18.0,
+    "mQabsQ": -6.41,
+    "nR": -3.0,
+    "nRabsR": -5.08
+  },
+  "gazebo_inertial": {
+    "mass": 9.0,
+    "ixx": 0.787,
+    "iyy": 1.737,
+    "izz": 2.247
+  },
+  "buoyancy_collision": {
+    "size": [
+      0.8,
+      0.05005,
+      0.22
+    ],
+    "pose_port": [
+      0.0,
+      0.55,
+      -0.020000000000000004
+    ],
+    "pose_starboard": [
+      0.0,
+      -0.55,
+      -0.020000000000000004
+    ]
+  },
+  "velocity_decay_air": {
+    "linear": 0.05,
+    "angular": 0.15
+  },
+  "limitations": [
+    "ODE: no fluid_added_mass",
+    "Box approx of triangular pontoon section",
+    "T500 open-water thrust; no hull interaction"
+  ],
+  "keel_collision": {
+    "size": [
+      0.4,
+      0.08,
+      0.006
+    ],
+    "pose": [
+      0.0,
+      0.0,
+      -0.237
+    ]
+  }
+}

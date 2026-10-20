@@ -1,25 +1,36 @@
 {
-  "aerial_sunnysky_v5210_c18": {
-    "source": "SunnySky V5210 300KV + EOLO C18 @ 25V (SunnySky USA thrust table)",
-    "maxRotVelocity_rad_s": 603.1,
-    "motorConstant": 9.795801e-05,
+  "aerial_sunnysky_x4120v3_15x8": {
+    "source": "SunnySky X Series V3 X4120 V3 + 15x8 prop; cutoff at I_max≈43 A",
+    "datasheet_row": {
+      "voltage_V": 20.31,
+      "current_A": 43.08,
+      "thrust_g": 3962,
+      "power_W": 874.97,
+      "efficiency_g_per_W": 4.52,
+      "RPM": 7539
+    },
+    "maxRotVelocity_rad_s": 789.5,
+    "motorConstant": 6.235894e-05,
     "momentConstant": 0.0276,
     "timeConstantUp": 0.02,
     "timeConstantDown": 0.04,
-    "T_max_N": 35.99,
-    "RPM_max": 5759,
-    "suggested_MPC_THR_HOVER": 0.83
+    "T_max_N": 38.87,
+    "RPM_max": 7539,
+    "I_cutoff_A": 43.08,
+    "suggested_MPC_THR_HOVER": 0.75,
+    "note": "Gazebo T=k·ω² with k=T/ω² at the 43 A cutoff row. Visual mesh may still be 18x8-class STL scaled toward 15\" until a 15x8 CAD is provided."
   },
   "t500": {
-    "source": "Blue Robotics T500 datasheet; k fit across 12\u201324 V; maxRotVelocity @ 16 V",
-    "operating_voltage_V": 16,
-    "maxRotVelocity_rad_s": 246.1,
+    "source": "Blue Robotics T500 datasheet; k fit across 12\u201324 V; maxRotVelocity @ 24 V",
+    "operating_voltage_V": 24,
+    "maxRotVelocity_rad_s": 323.4,
     "motorConstant": 0.00150973,
     "momentConstant": 0.0,
     "timeConstantUp": 0.08,
     "timeConstantDown": 0.12,
     "T_max_N_at_16V": 91.2,
     "RPM_max_at_16V": 2350,
-    "T_max_N_at_24V": 157.89
+    "T_max_N_at_24V": 157.89,
+    "RPM_max_at_24V": 3088
   }
 }

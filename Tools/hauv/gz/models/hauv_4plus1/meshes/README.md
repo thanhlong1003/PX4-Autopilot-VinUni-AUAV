@@ -25,17 +25,20 @@ Source STL from Shapr (not embedded in STEP — empty placeholders only):
 | File | Role |
 |---|---|
 | `prop_18x6_1_ccw.stl` / `prop_18x6_1_cw.stl` | Aerial props (spin about +Z) |
-| `motor_sunnysky.stl` | SunnySky V5210 (×4 on `base_link`) |
+| `motor_sunnysky.stl` | SunnySky body placeholder (physics = X4120 V3) |
 | `t500_thruster.stl` | T500 body (aft bulkhead, fixed on `base_link`) |
 | `propulsion_meshes.json` | Extents / regenerate metadata |
 | `propulsion_physics.json` | Datasheet → Gazebo `motorConstant` / `maxRotVelocity` |
+| `hydro_physics.json` | Mass / buoyancy / Fossen drag (geometry + wave Cd) |
 
 Physics (Gazebo `thrust = motorConstant · ω²`):
 
 | Actuator | Source | ω_max | T_max | motorConstant |
 |---|---|---|---|---|
-| Aerial ×4 | V5210 + C18 @ 25 V | 603 rad/s | ~36 N | `9.80e-5` |
-| T500 | Blue Robotics @ 16 V | 246 rad/s | ~91 N | `1.51e-3` |
+| Aerial ×4 | X4120 V3 + 15×8 @ 20.3 V / 43 A | 790 rad/s | ~39 N | `6.24e-5` |
+| T500 | Blue Robotics @ 24 V | 323 rad/s | ~158 N | `1.51e-3` |
+
+Hydro: dry mass 9 kg, float ~½ pontoon, surge `xUabsU=-18.3` → \(V_{\max}≈3\) m/s @ full T500. Spec: `docs/superpowers/specs/2026-10-20-hauv-hydro-physics-design.md`.
 
 ```sh
 cd AUAV-sim-ros/sim/cad

@@ -31,11 +31,11 @@ PARAM_DEFINE_FLOAT(HAUV_W_YAW_MAX, 1.00f);
  *
  * @unit norm
  * @min 0.0
- * @max 0.25
+ * @max 0.40
  * @decimal 2
  * @group HAUV Water Control
  */
-PARAM_DEFINE_FLOAT(HAUV_W_Q_IDLE, 0.22f);
+PARAM_DEFINE_FLOAT(HAUV_W_Q_IDLE, 0.30f);
 
 /**
  * Maximum manual-input age accepted by Water mode.
