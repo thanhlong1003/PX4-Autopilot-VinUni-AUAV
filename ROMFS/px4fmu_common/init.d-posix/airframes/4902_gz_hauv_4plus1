@@ -68,7 +68,7 @@ param set-default SIM_GZ_EC_MAX1 789
 param set-default SIM_GZ_EC_MAX2 789
 param set-default SIM_GZ_EC_MAX3 789
 param set-default SIM_GZ_EC_MAX4 789
-param set-default SIM_GZ_EC_MAX5 323
+param set-default SIM_GZ_EC_MAX5 426
 
 param set-default SIM_GZ_EC_DIS5 0
 param set-default SIM_GZ_EC_FAIL5 0

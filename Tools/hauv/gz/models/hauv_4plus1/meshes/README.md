@@ -36,9 +36,9 @@ Physics (Gazebo `thrust = motorConstant · ω²`):
 | Actuator | Source | ω_max | T_max | motorConstant |
 |---|---|---|---|---|
 | Aerial ×4 | X4120 V3 + 15×8 @ 20.3 V / 43 A | 790 rad/s | ~39 N | `6.24e-5` |
-| T500 | Blue Robotics @ 24 V | 323 rad/s | ~158 N | `1.51e-3` |
+| Horizontal (visual T500) | **T200 physics** @ 20 V (temp) | 426 rad/s | ~66 N | `3.62e-4` |
 
-Hydro: dry mass 9 kg, float ~½ pontoon, surge `xUabsU=-18.3` → \(V_{\max}≈3\) m/s @ full T500. Spec: `docs/superpowers/specs/2026-10-20-hauv-hydro-physics-design.md`.
+Hydro: dry mass 9 kg, float ~½ pontoon. Spec: `docs/superpowers/specs/2026-10-20-hauv-hydro-physics-design.md`.
 
 ```sh
 cd AUAV-sim-ros/sim/cad

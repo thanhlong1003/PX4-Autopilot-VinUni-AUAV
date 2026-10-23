@@ -20,17 +20,20 @@
     "suggested_MPC_THR_HOVER": 0.75,
     "note": "Gazebo T=k·ω² with k=T/ω² at the 43 A cutoff row. Visual mesh may still be 18x8-class STL scaled toward 15\" until a 15x8 CAD is provided."
   },
-  "t500": {
-    "source": "Blue Robotics T500 datasheet; k fit across 12\u201324 V; maxRotVelocity @ 24 V",
-    "operating_voltage_V": 24,
-    "maxRotVelocity_rad_s": 323.4,
-    "motorConstant": 0.00150973,
+  "horizontal_thruster": {
+    "visual": "t500_thruster.stl (unchanged)",
+    "physics_model": "Blue Robotics T200 (temporary capability swap)",
+    "source": "T200 datasheet: 5.25 kgf @ 16 V / 3600 RPM → k; maxRotVelocity @ 20 V (6.7 kgf)",
+    "operating_voltage_V": 20,
+    "maxRotVelocity_rad_s": 425.9,
+    "motorConstant": 0.0003623815,
     "momentConstant": 0.0,
     "timeConstantUp": 0.08,
     "timeConstantDown": 0.12,
-    "T_max_N_at_16V": 91.2,
-    "RPM_max_at_16V": 2350,
-    "T_max_N_at_24V": 157.89,
-    "RPM_max_at_24V": 3088
+    "T_max_N_at_16V": 51.5,
+    "RPM_max_at_16V": 3600,
+    "T_max_N_at_20V": 65.73,
+    "RPM_max_at_20V": 4067,
+    "note": "Physics only; mesh/joint names remain t500_*"
   }
 }

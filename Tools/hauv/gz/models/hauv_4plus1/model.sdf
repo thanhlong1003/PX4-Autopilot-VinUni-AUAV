@@ -423,7 +423,7 @@
 
     <!-- Propulsion from datasheets (see meshes/propulsion_physics.json).
          Aerial: SunnySky X4120 V3 + 15x8 @ 20.31 V / 43.08 A → 3962 g @ 7539 RPM.
-         T500: Blue Robotics @ 24 V → ~158 N @ 3088 RPM (k fit 12–24 V).
+         Horizontal: T200 physics (temp) @ 20 V → ~66 N @ 4067 RPM; visual still T500.
          Gazebo: thrust = motorConstant * omega^2, omega command in rad/s. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
@@ -470,13 +470,13 @@
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
 
-    <!-- T500 @ 24 V: ~16.1 kgf @ 3088 RPM. Bidirectional (CA_R_REV). -->
+    <!-- T200 physics @ 20 V: 6.7 kgf @ ~4067 RPM (visual mesh still T500). -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>t500_joint</jointName><linkName>t500_rotor</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.08</timeConstantUp><timeConstantDown>0.12</timeConstantDown>
-      <maxRotVelocity>323.4</maxRotVelocity><motorConstant>1.50973e-03</motorConstant>
+      <maxRotVelocity>425.9</maxRotVelocity><motorConstant>3.623815e-04</motorConstant>
       <momentConstant>0</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber><rotorDragCoefficient>0</rotorDragCoefficient>
       <rollingMomentCoefficient>0</rollingMomentCoefficient>
