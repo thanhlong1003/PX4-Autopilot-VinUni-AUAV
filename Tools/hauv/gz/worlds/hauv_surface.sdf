@@ -76,17 +76,6 @@
       <elevation>0</elevation>
     </spherical_coordinates>
 
-    <plugin filename="libBuoyancySystemPlugin.so"
-      name="gz::sim::systems::BuoyancySystem">
-      <graded_buoyancy>
-        <default_density>1000</default_density>
-        <density_change>
-          <above_depth>0</above_depth>
-          <density>1.225</density>
-        </density_change>
-      </graded_buoyancy>
-      <enable>hauv_4plus1_0::base_link</enable>
-      <enable>hauv_4plus1::base_link</enable>
-    </plugin>
+    <!-- Buoyancy: maritime::Surface on hauv_4plus1 (flat η=0 without wave pub). -->
   </world>
 </sdf>

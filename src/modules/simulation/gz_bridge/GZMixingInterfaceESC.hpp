@@ -38,7 +38,10 @@
 #include <gz/msgs.hh>
 #include <gz/transport.hh>
 
+#include <lib/mathlib/mathlib.h>
 #include <uORB/PublicationMulti.hpp>
+#include <uORB/Subscription.hpp>
+#include <uORB/topics/battery_status.h>
 #include <uORB/topics/esc_status.h>
 
 
@@ -75,6 +78,8 @@ private:
 
 	void motorSpeedCallback(const gz::msgs::Actuators &actuators);
 
+	float voltageScale();
+
 	gz::transport::Node &_node;
 	pthread_mutex_t _node_mutex;
 
@@ -83,5 +88,6 @@ private:
 	gz::transport::Node::Publisher _actuators_pub;
 
 	uORB::Publication<esc_status_s> _esc_status_pub{ORB_ID(esc_status)};
+	uORB::Subscription _battery_status_sub{ORB_ID(battery_status)};
 
 };

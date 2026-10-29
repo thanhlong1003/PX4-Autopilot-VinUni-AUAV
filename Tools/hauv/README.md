@@ -26,6 +26,8 @@ cd ../../../AUAV-sim-ros/sim
 ./scripts/test_gz_model.sh
 ./scripts/build_px4.sh
 ./scripts/up.sh
+# Coast (small pad + 800 m ocean):
+PX4_GZ_WORLD=hauv_coast SIM_MODE=water ./scripts/up.sh
 ```
 
 CAD mesh refresh:

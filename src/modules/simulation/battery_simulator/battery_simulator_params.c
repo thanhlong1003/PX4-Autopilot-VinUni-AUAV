@@ -69,3 +69,40 @@ PARAM_DEFINE_FLOAT(SIM_BAT_DRAIN, 60);
  * @group SITL
  */
 PARAM_DEFINE_FLOAT(SIM_BAT_MIN_PCT, 50.0f);
+
+/**
+ * Simulator battery drain source
+ *
+ * 0: time-based (SIM_BAT_DRAIN seconds for 100%→0% while armed)
+ * 1: power-based from actuator outputs (motor datasheet I(ω) + SIM_BAT_IDLE_A)
+ *
+ * @value 0 Time
+ * @value 1 Actuator power
+ * @group SITL
+ */
+PARAM_DEFINE_INT32(SIM_BAT_SRC, 0);
+
+/**
+ * Simulator avionics / idle current (power mode)
+ *
+ * Added to estimated motor current when SIM_BAT_SRC=1.
+ *
+ * @min 0
+ * @max 50
+ * @increment 0.1
+ * @unit A
+ * @group SITL
+ */
+PARAM_DEFINE_FLOAT(SIM_BAT_IDLE_A, 3.0f);
+
+/**
+ * Simulator aerial propulsion current model
+ *
+ * 0: SunnySky X4120 + EOLO 15x8 (I vs RPM @ ~21 V)
+ * 1: SunnySky X6215S + 22x6.6 (I vs thrust, V-interpolated 44.4/50 V)
+ *
+ * @value 0 X4120 / 15x8
+ * @value 1 X6215S / 22x6.6
+ * @group SITL
+ */
+PARAM_DEFINE_INT32(SIM_BAT_PROP, 0);

@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "pack": {
+    "cell": "Samsung 50S",
+    "config": "12S6P",
+    "pack_capacity_mAh": 30000,
+    "cell_c_rate": 5,
+    "v_nominal_V": 44.4,
+    "v_full_cell_V": 4.2,
+    "v_empty_cell_V": 3.5,
+    "v_failsafe_pack_V": 42.0,
+    "idle_avionics_A": 3.0,
+    "r_internal_per_cell_ohm": 0.005,
+    "disarm_resets_soc": true,
+    "SIM_BAT_PROP": 1,
+    "SIM_GZ_VREF": 50.0,
+    "airframe": "4902_gz_hauv_4plus1"
+  },
+  "sitl": {
+    "SIM_BAT_SRC": 1,
+    "SIM_BAT_PROP": 1,
+    "note": "BatterySimulator integrates I from actuator rad/s + idle; X6215S thrust LUTs in propulsion_x6215.json / SIM_BAT_PROP profile"
+  },
+  "ocv_soc_curve_18650": {
+    "note": "Shape scaled to BAT1_V_EMPTY…BAT1_V_CHARGED; terminal V = OCV - I·R·N_cells (12S)",
+    "soc": [0.00, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 1.00],
+    "v_cell_shape": [3.50, 3.60, 3.70, 3.74, 3.77, 3.80, 3.83, 3.86, 3.90, 3.95, 4.02, 4.10, 4.16, 4.20]
+  },
+  "aerial_current_model": {
+    "motor": "SunnySky XS HP X6215S",
+    "prop": "22x6.6",
+    "note": "Use propulsion_x6215.json lut_44V4 / lut_50V; BatterySimulator interpolates I(T) at bus voltage",
+    "I_max_A": 43.5,
+    "V_ref_V": 50.0
+  },
+  "pack_6s10p_legacy": {
+    "cell": "18650",
+    "config": "6S10P",
+    "cell_capacity_mAh": 3000,
+    "pack_capacity_mAh": 30000,
+    "cell_i_cont_A": 15,
+    "pack_i_cont_A": 150,
+    "v_nominal_V": 22.2,
+    "v_failsafe_pack_V": 21.0
+  },
+  "t200_power_model": {
+    "lut_thrust_N_power_W": [
+      [0, 0], [8.9, 25], [17.8, 75], [26.7, 140], [35.6, 210],
+      [44.5, 290], [51.5, 390], [65.7, 645]
+    ],
+    "source": "Blue Robotics Power vs Thrust @12/16 V + 20 V endpoint (32 A / 645 W / 6.7 kgf)",
+    "I_A": "P_W / V_bus"
+  }
+}

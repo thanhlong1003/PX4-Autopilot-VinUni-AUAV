@@ -1,28 +1,35 @@
 {
-  "aerial_sunnysky_x4120v3_15x8": {
-    "source": "SunnySky X Series V3 X4120 V3 + 15x8 prop; cutoff at I_max≈43 A",
-    "datasheet_row": {
-      "voltage_V": 20.31,
-      "current_A": 43.08,
-      "thrust_g": 3962,
-      "power_W": 874.97,
-      "efficiency_g_per_W": 4.52,
-      "RPM": 7539
+  "aerial_sunnysky_x6215s_22x66": {
+    "motor": "SunnySky XS HP X6215S",
+    "Kv": 170,
+    "R_ohm": 0.07,
+    "prop": "22x6.6",
+    "I_max_A": 43.5,
+    "P_max_W": 2175,
+    "source": "SunnySky X6215S + 22×6.6; cutoff at I≈43.5 A (50 V row)",
+    "datasheet_50V_cutoff": {
+      "voltage_V": 50.0,
+      "current_A": 43.5,
+      "thrust_gf": 10050,
+      "power_W": 2175,
+      "RPM_est_Kv": 7982,
+      "note": "No RPM in datasheet; RPM≈Kv*(V-I*R)"
     },
-    "maxRotVelocity_rad_s": 789.5,
-    "motorConstant": 6.235894e-05,
+    "battery_lut": "see propulsion_x6215.json lut_50V / battery_physics.json aerial_current_model",
+    "maxRotVelocity_rad_s": 835.9,
+    "motorConstant": 1.410483e-04,
     "momentConstant": 0.0276,
     "timeConstantUp": 0.02,
     "timeConstantDown": 0.04,
-    "T_max_N": 38.87,
-    "RPM_max": 7539,
-    "I_cutoff_A": 43.08,
-    "suggested_MPC_THR_HOVER": 0.75,
-    "note": "Gazebo T=k·ω² with k=T/ω² at the 43 A cutoff row. Visual mesh may still be 18x8-class STL scaled toward 15\" until a 15x8 CAD is provided."
+    "T_max_N": 98.56,
+    "RPM_max": 7982,
+    "I_cutoff_A": 43.5,
+    "suggested_MPC_THR_HOVER": 0.38,
+    "note": "Gazebo T=k·ω² with k=T/ω² at the 50 V cutoff row. Visual meshes: prop_22x6_ccw/cw.stl."
   },
   "horizontal_thruster": {
-    "visual": "t500_thruster.stl (unchanged)",
-    "physics_model": "Blue Robotics T200 (temporary capability swap)",
+    "visual": "t200_thruster.stl",
+    "physics_model": "Blue Robotics T200",
     "source": "T200 datasheet: 5.25 kgf @ 16 V / 3600 RPM → k; maxRotVelocity @ 20 V (6.7 kgf)",
     "operating_voltage_V": 20,
     "maxRotVelocity_rad_s": 425.9,
@@ -34,6 +41,6 @@
     "RPM_max_at_16V": 3600,
     "T_max_N_at_20V": 65.73,
     "RPM_max_at_20V": 4067,
-    "note": "Physics only; mesh/joint names remain t500_*"
+    "note": "SDF link/joint names t200_*; thrust along +X"
   }
 }

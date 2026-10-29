@@ -7,18 +7,18 @@
     <static>false</static>
     <link name="base_link">
       <inertial>
-        <!-- Dry mass measured 9 kg. Box inertia from CAD bbox after +90° yaw
-             (Lx≈1.46, Ly≈0.93, Lz≈0.43). COM low for float stability.
+        <!-- Dry mass 19 kg (V2). Box inertia from CAD bbox after +90° yaw
+             (Lx≈1.70, Ly≈1.134, Lz≈0.43). COM low for float stability.
              See meshes/hydro_physics.json. -->
         <pose>0 0 -0.10 0 0 0</pose>
-        <mass>9.0</mass>
+        <mass>19.0</mass>
         <inertia>
-          <ixx>0.787</ixx>
+          <ixx>2.327</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>1.737</iyy>
+          <iyy>4.869</iyy>
           <iyz>0</iyz>
-          <izz>2.247</izz>
+          <izz>6.611</izz>
         </inertia>
       </inertial>
       <gravity>true</gravity>
@@ -37,12 +37,38 @@
         </geometry>
         <material><diffuse>0.55 0.58 0.62 1</diffuse></material>
       </visual>
-      <!-- Buoyancy boxes aligned to VISUAL pontoons (STL |y|>0.4 → z∈[-0.13,0.09]),
-           not landing-gear tips. Half-height volume ≈ 9 L − keel so waterline
-           sits mid-pontoon (see meshes/hydro_physics.json). -->
+      <!-- Tip floats at lateral boom ends (y=±0.82). Tube z≈0.07 through
+           upper hole; long axis +X. Baked into hauv_big.stl too. -->
+      <visual name="float_port_visual">
+        <pose>0 0.82 0.12 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/float.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.95 0.55 0.12 1</diffuse>
+          <ambient>0.95 0.55 0.12 1</ambient>
+        </material>
+      </visual>
+      <visual name="float_starboard_visual">
+        <pose>0 -0.82 0.12 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/float.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.95 0.55 0.12 1</diffuse>
+          <ambient>0.95 0.55 0.12 1</ambient>
+        </material>
+      </visual>
+      <!-- Buoyancy at tip-float volume. -->
       <collision name="pontoon_port_collision">
-        <pose>0 0.55 -0.02 0 0 0</pose>
-        <geometry><box><size>0.8 0.05005 0.22</size></box></geometry>
+        <pose>0 0.82 -0.05 0 0 0</pose>
+        <geometry><box><size>1.0 0.16 0.22</size></box></geometry>
         <surface>
           <contact>
             <ode><min_depth>0.001</min_depth><max_vel>0</max_vel></ode>
@@ -51,8 +77,8 @@
         </surface>
       </collision>
       <collision name="pontoon_starboard_collision">
-        <pose>0 -0.55 -0.02 0 0 0</pose>
-        <geometry><box><size>0.8 0.05005 0.22</size></box></geometry>
+        <pose>0 -0.82 -0.05 0 0 0</pose>
+        <geometry><box><size>1.0 0.16 0.22</size></box></geometry>
         <surface>
           <contact>
             <ode><min_depth>0.001</min_depth><max_vel>0</max_vel></ode>
@@ -168,9 +194,9 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
       </sensor>
-      <!-- SunnySky X4120 V3 motors (CAD poses after yaw +90; mesh may still be V5210 body). -->
+      <!-- SunnySky X6215S motor bodies (V2 CAD poses; see meshes/frame_align.json). -->
       <visual name="motor_0_visual">
-        <pose>0.274642 0.280145 0.131326 0 0 0</pose>
+        <pose>0.36 0.421 0.143514687347 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/motor_sunnysky.stl</uri>
@@ -180,7 +206,7 @@
         <material><diffuse>0.08 0.08 0.1 1</diffuse></material>
       </visual>
       <visual name="motor_1_visual">
-        <pose>-0.275358 -0.280145 0.131326 0 0 0</pose>
+        <pose>-0.36 -0.402 0.143514687346 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/motor_sunnysky.stl</uri>
@@ -190,7 +216,7 @@
         <material><diffuse>0.08 0.08 0.1 1</diffuse></material>
       </visual>
       <visual name="motor_2_visual">
-        <pose>-0.275358 0.280145 0.131326 0 0 0</pose>
+        <pose>-0.36 0.421 0.143514687346 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/motor_sunnysky.stl</uri>
@@ -200,7 +226,7 @@
         <material><diffuse>0.08 0.08 0.1 1</diffuse></material>
       </visual>
       <visual name="motor_3_visual">
-        <pose>0.274642 -0.270145 0.131326 0 0 0</pose>
+        <pose>0.36 -0.402 0.143514687346 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://hauv_4plus1/meshes/motor_sunnysky.stl</uri>
@@ -209,12 +235,12 @@
         </geometry>
         <material><diffuse>0.08 0.08 0.1 1</diffuse></material>
       </visual>
-      <!-- T500 in center aft bulkhead hole (y=0, r≈0.08). Not on a pontoon. -->
-      <visual name="t500_body_visual">
-        <pose>-0.40 0 -0.14 0 1.57079632679 0</pose>
+      <!-- T200 aft bulkhead (fixed on base_link; thrust along +X via t200_rotor). -->
+      <visual name="t200_body_visual">
+        <pose>-0.368651775065 0 -0.138939685413 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://hauv_4plus1/meshes/t500_thruster.stl</uri>
+            <uri>model://hauv_4plus1/meshes/t200_thruster.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -226,7 +252,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>0.274642 0.280145 0.131326 0 0 0</pose>
+      <pose>0.36 0.421 0.143514687347 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -235,13 +261,13 @@
           <izz>2.649858234714004e-05</izz>
         </inertia>
       </inertial>
-      <!-- Physics: 15x8. Visual: 18x6.1 STL scaled ≈15/18 until 15x8 CAD. -->
+      <!-- Physics: X6215S + 22×6.6. Visual: prop_22x6_* STLs. -->
       <visual name="rotor_0_visual">
         <pose>0 0 0.02 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://hauv_4plus1/meshes/prop_18x6_1_ccw.stl</uri>
-            <scale>0.833 0.833 0.833</scale>
+            <uri>model://hauv_4plus1/meshes/prop_22x6_ccw.stl</uri>
+            <scale>1 1 1</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -266,7 +292,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>-0.275358 -0.280145 0.131326 0 0 0</pose>
+      <pose>-0.36 -0.402 0.143514687346 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -279,8 +305,8 @@
         <pose>0 0 0.02 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://hauv_4plus1/meshes/prop_18x6_1_ccw.stl</uri>
-            <scale>0.833 0.833 0.833</scale>
+            <uri>model://hauv_4plus1/meshes/prop_22x6_ccw.stl</uri>
+            <scale>1 1 1</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -305,7 +331,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>-0.275358 0.280145 0.131326 0 0 0</pose>
+      <pose>-0.36 0.421 0.143514687346 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -318,8 +344,8 @@
         <pose>0 0 0.02 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://hauv_4plus1/meshes/prop_18x6_1_cw.stl</uri>
-            <scale>0.833 0.833 0.833</scale>
+            <uri>model://hauv_4plus1/meshes/prop_22x6_cw.stl</uri>
+            <scale>1 1 1</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -344,7 +370,7 @@
       <gravity>true</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
-      <pose>0.274642 -0.270145 0.131326 0 0 0</pose>
+      <pose>0.36 -0.402 0.143514687346 0 0 0</pose>
       <inertial>
         <mass>0.016076923076923075</mass>
         <inertia>
@@ -357,8 +383,8 @@
         <pose>0 0 0.02 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://hauv_4plus1/meshes/prop_18x6_1_cw.stl</uri>
-            <scale>0.833 0.833 0.833</scale>
+            <uri>model://hauv_4plus1/meshes/prop_22x6_cw.stl</uri>
+            <scale>1 1 1</scale>
           </mesh>
         </geometry>
         <material><diffuse>0.15 0.15 0.17 1</diffuse></material>
@@ -380,9 +406,9 @@
       </axis>
     </joint>
 
-    <!-- T500 actuator link (physics). Housing mesh is on base_link. -->
-    <link name="t500_rotor">
-      <pose>-0.40 0 -0.14 0 1.57079632679 0</pose>
+    <!-- T200 actuator link (physics). Housing mesh is on base_link. -->
+    <link name="t200_rotor">
+      <pose>-0.368651775065 0 -0.138939685413 0 1.57079632679 0</pose>
       <gravity>false</gravity>
       <self_collide>false</self_collide>
       <velocity_decay />
@@ -394,9 +420,9 @@
         </inertia>
       </inertial>
     </link>
-    <joint name="t500_joint" type="revolute">
+    <joint name="t200_joint" type="revolute">
       <parent>base_link</parent>
-      <child>t500_rotor</child>
+      <child>t200_rotor</child>
       <axis>
         <xyz>0 0 1</xyz>
         <limit><lower>-1e16</lower><upper>1e16</upper></limit>
@@ -407,14 +433,70 @@
       </axis>
     </joint>
 
+    <!-- Wave-aware pontoon buoyancy (maritime::Surface). Follows Gerstner
+         η(x,y,t) when PublisherPlugin drives /gazebo/wavefield/parameters.
+         Replaces world BuoyancySystem for this model (avoid double lift).
+         Requires libSurface.so (Docker /opt/hauv-maritime). -->
+    <plugin filename="libSurface.so" name="maritime::Surface">
+      <link_name>base_link</link_name>
+      <hull_length>1.00</hull_length>
+      <hull_radius>0.12</hull_radius>
+      <fluid_level>0</fluid_level>
+      <fluid_density>1000</fluid_density>
+      <points>
+        <point>0.40 0.82 -0.05</point>
+        <point>-0.40 0.82 -0.05</point>
+      </points>
+      <!-- Match coast_waves / PublisherPlugin (flat η when gain unused offline). -->
+      <wavefield>
+        <topic>/gazebo/wavefield/parameters</topic>
+        <wave>
+          <model>PMS</model>
+          <gain>0</gain>
+          <period>6.0</period>
+          <direction>0.55</direction>
+          <steepness>0.28</steepness>
+          <scale>1.25</scale>
+          <angle>0.55</angle>
+          <tau>1.5</tau>
+        </wave>
+      </wavefield>
+    </plugin>
+    <plugin filename="libSurface.so" name="maritime::Surface">
+      <link_name>base_link</link_name>
+      <hull_length>1.00</hull_length>
+      <hull_radius>0.12</hull_radius>
+      <fluid_level>0</fluid_level>
+      <fluid_density>1000</fluid_density>
+      <points>
+        <point>0.40 -0.82 -0.05</point>
+        <point>-0.40 -0.82 -0.05</point>
+      </points>
+      <wavefield>
+        <topic>/gazebo/wavefield/parameters</topic>
+        <wave>
+          <model>PMS</model>
+          <gain>0</gain>
+          <period>6.0</period>
+          <direction>0.55</direction>
+          <steepness>0.28</steepness>
+          <scale>1.25</scale>
+          <angle>0.55</angle>
+          <tau>1.5</tau>
+        </wave>
+      </wavefield>
+    </plugin>
+
     <!-- Hydrodynamics from meshes/hydro_physics.json (viscous + effective
-         wave Cd; measured 9 kg; half-draft float). Not visual fine-tuning. -->
+         wave Cd; measured 19 kg; half-draft float). Not visual fine-tuning. -->
     <plugin filename="gz-sim-hydrodynamics-system"
       name="gz::sim::systems::Hydrodynamics">
       <link_name>base_link</link_name>
       <xU>-10.0</xU><xUabsU>-16.79</xUabsU>
       <yV>-20.0</yV><yVabsV>-105.6</yVabsV>
-      <zW>-35.0</zW><zWabsW>-40.04</zWabsW>
+      <!-- Heave soft enough to ride Gerstner η (was -35/-40 → craft sat at
+           mean z while visual crests washed over the hull). -->
+      <zW>-10.0</zW><zWabsW>-14.0</zWabsW>
       <kP>-8.0</kP><kPabsP>-12.11</kPabsP>
       <mQ>-18.0</mQ><mQabsQ>-6.41</mQabsQ>
       <!-- Yaw: pontoons see surge u=±y·r → frontal area (not lateral). -->
@@ -422,15 +504,15 @@
     </plugin>
 
     <!-- Propulsion from datasheets (see meshes/propulsion_physics.json).
-         Aerial: SunnySky X4120 V3 + 15x8 @ 20.31 V / 43.08 A → 3962 g @ 7539 RPM.
-         Horizontal: T200 physics (temp) @ 20 V → ~66 N @ 4067 RPM; visual still T500.
+         Aerial: SunnySky X6215S + 22×6.6 @ 50 V / 43.5 A → 10.05 kgf @ ~7982 RPM.
+         Horizontal: T200 physics @ 20 V → ~66 N @ 4067 RPM; visual t200_thruster.stl.
          Gazebo: thrust = motorConstant * omega^2, omega command in rad/s. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
       <jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
+      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -441,7 +523,7 @@
       <jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
+      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -452,7 +534,7 @@
       <jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
+      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -463,17 +545,17 @@
       <jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>789.5</maxRotVelocity><motorConstant>6.235894e-05</motorConstant>
+      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim><motorType>velocity</motorType>
     </plugin>
 
-    <!-- T200 physics @ 20 V: 6.7 kgf @ ~4067 RPM (visual mesh still T500). -->
+    <!-- T200 physics @ 20 V: 6.7 kgf @ ~4067 RPM. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
       name="gz::sim::systems::MulticopterMotorModel">
-      <jointName>t500_joint</jointName><linkName>t500_rotor</linkName>
+      <jointName>t200_joint</jointName><linkName>t200_rotor</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.08</timeConstantUp><timeConstantDown>0.12</timeConstantDown>
       <maxRotVelocity>425.9</maxRotVelocity><motorConstant>3.623815e-04</motorConstant>

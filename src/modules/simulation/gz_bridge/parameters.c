@@ -105,3 +105,26 @@ PARAM_DEFINE_INT32(SIM_GZ_EN_ODOM, 1);
  * @value 1 Enabled
  */
 PARAM_DEFINE_INT32(SIM_GZ_EN_GPS, 1);
+
+/**
+ * Gazebo ESC voltage reference for ω scaling
+ *
+ * If > 0, aerial motor commands (first SIM_GZ_V_N channels) are multiplied by
+ * battery_status.voltage_v / SIM_GZ_VREF (clamped). 0 disables scaling.
+ * Use 50 for X6215S @ 50 V datasheet reference.
+ *
+ * @min 0
+ * @max 60
+ * @unit V
+ * @group Simulation
+ */
+PARAM_DEFINE_FLOAT(SIM_GZ_VREF, 0.f);
+
+/**
+ * Number of ESC channels scaled by SIM_GZ_VREF (aerial motors)
+ *
+ * @min 0
+ * @max 8
+ * @group Simulation
+ */
+PARAM_DEFINE_INT32(SIM_GZ_V_N, 4);

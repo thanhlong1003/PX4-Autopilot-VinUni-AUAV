@@ -42,6 +42,7 @@
 #include <uORB/Publication.hpp>
 #include <uORB/Subscription.hpp>
 #include <uORB/SubscriptionInterval.hpp>
+#include <uORB/topics/actuator_outputs.h>
 #include <uORB/topics/battery_status.h>
 #include <uORB/topics/parameter_update.h>
 #include <uORB/topics/vehicle_status.h>
@@ -71,11 +72,23 @@ private:
 	void Run() override;
 	void updateCommands();
 
+	/// Estimate pack current [A] from ESC command rad/s (SIM_BAT_SRC=1).
+	float estimateLoadCurrentA(float bus_voltage_v);
+
+	/// 18650-like OCV [V/cell] from SoC, scaled to BAT1_V_EMPTY…BAT1_V_CHARGED.
+	float cellOcvFromSoc(float soc);
+
+	/// Pack terminal voltage with optional IR sag.
+	float packVoltageFromSoc(float soc, float current_a);
+
+	static float interpolateLut(const float *x, const float *y, unsigned n, float xq);
+
 	static constexpr uint32_t BATTERY_SIMLATOR_SAMPLE_FREQUENCY_HZ = 100; // Hz
 	static constexpr uint32_t BATTERY_SIMLATOR_SAMPLE_INTERVAL_US = 1_s / BATTERY_SIMLATOR_SAMPLE_FREQUENCY_HZ;
 
 	uORB::SubscriptionInterval _parameter_update_sub{ORB_ID(parameter_update), 1_s};
 	uORB::Subscription _vehicle_status_sub{ORB_ID(vehicle_status)};
+	uORB::Subscription _actuator_outputs_sub{ORB_ID(actuator_outputs)};
 
 	uORB::Subscription _vehicle_command_sub{ORB_ID(vehicle_command)};
 	uORB::Publication<vehicle_command_ack_s> _command_ack_pub{ORB_ID(vehicle_command_ack)};
@@ -92,6 +105,12 @@ private:
 
 	DEFINE_PARAMETERS(
 		(ParamFloat<px4::params::SIM_BAT_DRAIN>) _param_sim_bat_drain, ///< battery drain interval
-		(ParamFloat<px4::params::SIM_BAT_MIN_PCT>) _param_bat_min_pct //< minimum battery percentage
+		(ParamFloat<px4::params::SIM_BAT_MIN_PCT>) _param_bat_min_pct, ///< minimum battery percentage
+		(ParamInt<px4::params::SIM_BAT_SRC>) _param_sim_bat_src, ///< 0=time, 1=power from actuators
+		(ParamFloat<px4::params::SIM_BAT_IDLE_A>) _param_sim_bat_idle_a, ///< avionics idle current
+		(ParamInt<px4::params::SIM_BAT_PROP>) _param_sim_bat_prop, ///< 0=x4120 1=x6215
+		(ParamFloat<px4::params::SIM_GZ_VREF>) _param_sim_gz_vref, ///< ω scale ref (0=off)
+		(ParamFloat<px4::params::BAT1_CAPACITY>) _param_bat1_capacity,
+		(ParamFloat<px4::params::BAT1_R_INTERNAL>) _param_bat1_r_internal
 	)
 };

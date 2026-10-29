@@ -33,6 +33,26 @@
 
 #include "GZMixingInterfaceESC.hpp"
 
+#include <lib/parameters/param.h>
+
+float GZMixingInterfaceESC::voltageScale()
+{
+	float vref = 0.f;
+	param_get(param_find("SIM_GZ_VREF"), &vref);
+
+	if (vref <= 1.f) {
+		return 1.f;
+	}
+
+	battery_status_s bat{};
+
+	if (!_battery_status_sub.copy(&bat) || bat.voltage_v < 1.f) {
+		return 1.f;
+	}
+
+	return math::constrain(bat.voltage_v / vref, 0.5f, 1.f);
+}
+
 bool GZMixingInterfaceESC::init(const std::string &model_name)
 {
 
@@ -80,6 +100,11 @@ bool GZMixingInterfaceESC::updateOutputs(uint16_t outputs[MAX_ACTUATORS], unsign
 		gz::msgs::Actuators rotor_velocity_message;
 		rotor_velocity_message.mutable_velocity()->Resize(active_output_count, 0);
 
+		const float v_scale = voltageScale();
+		int32_t n_scale = 4;
+		param_get(param_find("SIM_GZ_V_N"), &n_scale);
+		n_scale = math::constrain(n_scale, (int32_t)0, (int32_t)MAX_ACTUATORS);
+
 		for (unsigned i = 0; i < active_output_count; i++) {
 			double velocity = outputs[i];
 
@@ -94,6 +119,11 @@ bool GZMixingInterfaceESC::updateOutputs(uint16_t outputs[MAX_ACTUATORS], unsign
 				} else {
 					velocity = 0.;
 				}
+			}
+
+			// Aerial channels: derate ω with pack voltage (X6215 / SIM_GZ_VREF).
+			if (static_cast<int32_t>(i) < n_scale) {
+				velocity *= static_cast<double>(v_scale);
 			}
 
 			rotor_velocity_message.set_velocity(i, velocity);

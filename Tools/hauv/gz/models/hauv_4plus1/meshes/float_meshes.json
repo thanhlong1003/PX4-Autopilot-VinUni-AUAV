@@ -1,0 +1,21 @@
+{
+  "source": "/home/ntlong103/HAUV/Float - Part 1.stl",
+  "file": "float.stl",
+  "baked_into": "hauv_big.stl",
+  "orientation": "long_axis=+X (fore-aft); tube through hole along +Y",
+  "poses_flu_m": {
+    "port": [
+      0.0,
+      0.82,
+      0.12000000000000001
+    ],
+    "starboard": [
+      0.0,
+      -0.82,
+      0.12000000000000001
+    ]
+  },
+  "tube_z_m": 0.07,
+  "hole_z_in_mesh_m": -0.05,
+  "note": "Outboard at boom ends (|y|~0.82); raised so tube z=0.07 through upper hole."
+}

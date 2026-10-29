@@ -1,0 +1,44 @@
+{
+  "aerial_sunnysky_x6215s_22x66": {
+    "motor": "SunnySky XS HP X6215S",
+    "Kv": 170,
+    "R_ohm": 0.07,
+    "prop": "22x6.6",
+    "I_max_A": 43.5,
+    "P_max_W": 2175,
+    "datasheet_50V_cutoff": {
+      "voltage_V": 50.0,
+      "current_A": 43.5,
+      "thrust_gf": 10050,
+      "power_W": 2175,
+      "RPM_est_Kv": 7982,
+      "note": "No RPM in datasheet; RPM≈Kv*(V-I*R)"
+    },
+    "maxRotVelocity_rad_s": 835.9,
+    "motorConstant": 1.410483e-04,
+    "momentConstant": 0.0276,
+    "T_max_N": 98.56,
+    "suggested_MPC_THR_HOVER": 0.38,
+    "lut_44V4": {
+      "thrust_gf": [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8130],
+      "current_A": [2.1, 4.9, 8.5, 12.8, 17.4, 22.7, 28.1, 35.2]
+    },
+    "lut_50V": {
+      "thrust_gf": [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10050],
+      "current_A": [1.8, 4.5, 7.7, 11.7, 15.9, 20.5, 25.6, 31.0, 37.1, 43.5]
+    },
+    "voltage_scale": {
+      "V_ref_V": 50.0,
+      "V_empty_pack_V": 42.0,
+      "note": "ω_cmd *= clamp(V_bus/V_ref, V_empty/V_ref, 1); I from LUT(V,T)"
+    }
+  },
+  "pack": {
+    "cell": "Samsung 50S",
+    "config": "12S6P",
+    "pack_capacity_mAh": 30000,
+    "v_nominal_V": 44.4,
+    "v_failsafe_V": 42.0
+  },
+  "vehicle_mass_kg": 15.0
+}
