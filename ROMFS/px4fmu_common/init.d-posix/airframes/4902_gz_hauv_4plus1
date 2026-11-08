@@ -63,11 +63,11 @@ param set-default SIM_GZ_EC_MIN3 0
 param set-default SIM_GZ_EC_MIN4 0
 param set-default SIM_GZ_EC_MIN5 0
 
-# X6215S @ 50 V ref (rad/s); live V scales ω via SIM_GZ_VREF.
-param set-default SIM_GZ_EC_MAX1 836
-param set-default SIM_GZ_EC_MAX2 836
-param set-default SIM_GZ_EC_MAX3 836
-param set-default SIM_GZ_EC_MAX4 836
+# X6215S @ 50 V / 60 A cutoff (rad/s); live V scales ω via SIM_GZ_VREF.
+param set-default SIM_GZ_EC_MAX1 815
+param set-default SIM_GZ_EC_MAX2 815
+param set-default SIM_GZ_EC_MAX3 815
+param set-default SIM_GZ_EC_MAX4 815
 param set-default SIM_GZ_EC_MAX5 426
 
 param set-default SIM_GZ_EC_DIS5 0
@@ -87,8 +87,8 @@ param set-default COM_DISARM_PRFLT -1
 # Slower land-detect so bobbing on the surface is not instantly "landed".
 param set-default LNDMC_TRIG_TIME 5.0
 
-# Hover ~19 kg with X6215S @ 50 V.
-param set-default MPC_THR_HOVER 0.48
+# Hover ~19 kg with X6215S @ 50 V / 60 A (T_max≈114 N/motor).
+param set-default MPC_THR_HOVER 0.41
 # Idle spin when armed (flight); water mode uses HAUV_W_Q_IDLE for yaw motors.
 param set-default MPC_THR_MIN 0.08
 param set-default NAV_DLL_ACT 2

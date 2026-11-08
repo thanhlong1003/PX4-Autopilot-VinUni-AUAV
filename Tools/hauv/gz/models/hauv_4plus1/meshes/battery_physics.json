@@ -30,7 +30,7 @@
     "motor": "SunnySky XS HP X6215S",
     "prop": "22x6.6",
     "note": "Use propulsion_x6215.json lut_44V4 / lut_50V; BatterySimulator interpolates I(T) at bus voltage",
-    "I_max_A": 43.5,
+    "I_max_A": 60.0,
     "V_ref_V": 50.0
   },
   "pack_6s10p_legacy": {

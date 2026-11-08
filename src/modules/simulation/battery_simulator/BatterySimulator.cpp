@@ -63,24 +63,25 @@ constexpr float kT200MotorConstant = 3.623815e-4f; // T = k·ω²
 constexpr float kPackIContMaxX4120 = 150.f;	// 6S10P
 constexpr float kPackIContMaxX6215 = 150.f;	// 12S6P soft clamp
 
-// X6215S + 22x6.6: thrust [N] → current [A] at 44.4 V and 50 V.
+// X6215S + 22x6.6 manufacturer table; soft cutoff I=60 A.
+// thrust [N] → current [A] at 44.4 V and 50 V (see propulsion_x6215.json).
 constexpr float kX6215Thrust44N[] = {
-	9.81f, 19.61f, 29.42f, 39.23f, 49.03f, 58.84f, 68.65f, 79.73f
+	4.90f, 9.81f, 19.61f, 29.42f, 39.23f, 49.03f, 58.84f, 68.65f, 78.45f, 88.26f, 98.07f, 104.93f
 };
 constexpr float kX6215Amp44[] = {
-	2.1f, 4.9f, 8.5f, 12.8f, 17.4f, 22.7f, 28.1f, 35.2f
+	0.9f, 2.0f, 5.0f, 8.8f, 13.3f, 18.4f, 24.1f, 30.8f, 37.9f, 46.0f, 55.2f, 60.0f
 };
 constexpr float kX6215Thrust50N[] = {
-	9.81f, 19.61f, 29.42f, 39.23f, 49.03f, 58.84f, 68.65f, 78.46f, 88.26f, 98.56f
+	9.81f, 19.61f, 29.42f, 39.23f, 49.03f, 58.84f, 68.65f, 78.45f, 88.26f, 98.07f, 114.10f
 };
 constexpr float kX6215Amp50[] = {
-	1.8f, 4.5f, 7.7f, 11.7f, 15.9f, 20.5f, 25.6f, 31.0f, 37.1f, 43.5f
+	2.0f, 4.6f, 8.0f, 11.7f, 16.0f, 21.1f, 26.8f, 32.4f, 39.0f, 46.1f, 60.0f
 };
 static_assert(sizeof(kX6215Thrust44N) / sizeof(kX6215Thrust44N[0]) == sizeof(kX6215Amp44) / sizeof(kX6215Amp44[0]),
 	      "X6215 44V LUT");
 static_assert(sizeof(kX6215Thrust50N) / sizeof(kX6215Thrust50N[0]) == sizeof(kX6215Amp50) / sizeof(kX6215Amp50[0]),
 	      "X6215 50V LUT");
-constexpr float kX6215MotorConstant = 1.410483e-4f; // T=k·ω² @ 50 V ref
+constexpr float kX6215MotorConstant = 1.716374e-4f; // T=k·ω² @ 50 V / 60 A
 constexpr float kX6215VRef = 50.f;
 constexpr float kX6215VLow = 44.4f;
 

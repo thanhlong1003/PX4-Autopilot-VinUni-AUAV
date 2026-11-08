@@ -504,7 +504,7 @@
     </plugin>
 
     <!-- Propulsion from datasheets (see meshes/propulsion_physics.json).
-         Aerial: SunnySky X6215S + 22×6.6 @ 50 V / 43.5 A → 10.05 kgf @ ~7982 RPM.
+         Aerial: SunnySky X6215S + 22×6.6 @ 50 V / 60 A → 11.635 kgf @ ~7786 RPM.
          Horizontal: T200 physics @ 20 V → ~66 N @ 4067 RPM; visual t200_thruster.stl.
          Gazebo: thrust = motorConstant * omega^2, omega command in rad/s. -->
     <plugin filename="gz-sim-multicopter-motor-model-system"
@@ -512,7 +512,7 @@
       <jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
+      <maxRotVelocity>815.4</maxRotVelocity><motorConstant>1.716374e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -523,7 +523,7 @@
       <jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
+      <maxRotVelocity>815.4</maxRotVelocity><motorConstant>1.716374e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -534,7 +534,7 @@
       <jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
+      <maxRotVelocity>815.4</maxRotVelocity><motorConstant>1.716374e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -545,7 +545,7 @@
       <jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.02</timeConstantUp><timeConstantDown>0.04</timeConstantDown>
-      <maxRotVelocity>835.9</maxRotVelocity><motorConstant>1.410483e-04</motorConstant>
+      <maxRotVelocity>815.4</maxRotVelocity><motorConstant>1.716374e-04</motorConstant>
       <momentConstant>0.0276</momentConstant><commandSubTopic>command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber><rotorDragCoefficient>8.0e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>

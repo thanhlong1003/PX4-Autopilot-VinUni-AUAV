@@ -34,7 +34,7 @@ Physics (Gazebo `thrust = motorConstant · ω²`):
 
 | Actuator | Source | ω_max | T_max | motorConstant |
 |---|---|---|---|---|
-| Aerial ×4 | X6215S + 22×6.6 @ 50 V / 43.5 A | 836 rad/s | ~99 N | `1.41e-4` |
+| Aerial ×4 | X6215S + 22×6.6 @ 50 V / 60 A | 815 rad/s | ~114 N | `1.72e-4` |
 | Horizontal | T200 @ 20 V | 426 rad/s | ~66 N | `3.62e-4` |
 
 Hydro: dry mass **19 kg**. Side floats from `HAUV/Float - Part 1.stl` → `float.stl` at y=±0.45 (STEP float BREP was empty).

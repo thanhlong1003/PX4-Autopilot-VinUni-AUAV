@@ -40,7 +40,7 @@
       -0.1
     ],
     "T200_20V_N": 65.73,
-    "suggested_MPC_THR_HOVER": 0.38,
+    "suggested_MPC_THR_HOVER": 0.41,
     "A_front_one_m2": 0.00551,
     "yaw_rate_at_1_2Nm_deg_s": 15.7
   },
